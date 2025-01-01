@@ -1,5 +1,6 @@
 import { geistSans } from '@/app/ui/fonts';
 import '@/app/ui/globals.css';
+import Header from './ui/header';
 
 export const metadata = {
   title: 'Create Next App',
@@ -9,10 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.className} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.className} antialiased`}>
+        <Header />
+        <main>
+         {children}
+        </main>
       </body>
     </html>
   );
