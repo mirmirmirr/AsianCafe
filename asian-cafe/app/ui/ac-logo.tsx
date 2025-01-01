@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { geistSans } from '@/app/ui/fonts';
 
-export default function ACLogo({width, height, textsize}) {
+export default function ACLogo({width, height}) {
   return (
     <div
       className={`${geistSans.className} flex flex-col items-center leading-none`}
@@ -14,7 +14,7 @@ export default function ACLogo({width, height, textsize}) {
         height={height}
         priority
       />
-      <p className={`text-[${textsize}px] text-red font-[700]`}>Asian Cafe</p>
+      <p className={`text-[40px] text-red font-[700]`}>Asian Cafe</p>
     </div>
   );
 }
