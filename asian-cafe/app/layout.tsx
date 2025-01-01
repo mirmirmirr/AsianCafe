@@ -1,4 +1,4 @@
-import { geistSans, geistMono } from '@/app/ui/fonts';
+import { geistSans } from '@/app/ui/fonts';
 import '@/app/ui/globals.css';
 
 export const metadata = {
