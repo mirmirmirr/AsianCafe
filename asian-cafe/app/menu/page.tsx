@@ -6,9 +6,9 @@ export default async function Page() {
   const allItems = await fetchSectionItems();
 
   return (
-    <div className="grid grid-rows-[5px_1fr_20px] justify-items-center min-h-screen gap-16">
-      <main className="flex flex-row gap-8 row-start-2">
-        <div className='border-2 border-black p-4'>
+    <div className="grid grid-rows-[5px_1fr_20px] min-h-screen gap-16">
+      <main className="row-start-2 grid grid-cols-[300px_1fr_300px] gap-x-8">
+        <div className='border-2 border-black p-4 h-[350px] col-start-1'>
           <h1 className='text-[20px] font-[600]'>Categories</h1>
           <ol>
             <li>Appetizers</li>
@@ -25,7 +25,7 @@ export default async function Page() {
             <li>Beverages and Sides</li>
           </ol>
         </div>
-        <div>
+        <div className='col-start-2'>
           <MenuItems sectionName='Appetizers' allItems={allItems}/>
           <MenuItems sectionName='Hibachi Fried Rice' allItems={allItems}/>
           <MenuItems sectionName='Japanese Yaki Udon' allItems={allItems}/>
@@ -39,8 +39,8 @@ export default async function Page() {
           <MenuItems sectionName='Homemade Ramen' allItems={allItems}/>
           <MenuItems sectionName='Beverages and Sides' allItems={allItems}/>
         </div>
-        <div className='border-l-2 border-black p-4 w-[30vw]'>
-          My Order
+        <div className='border-l-2 border-black p-4 col-start-3'>
+          <h1 className='text-[20px] font-[600]'>My Order</h1>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">

@@ -6,14 +6,13 @@ export default function ACLogo({width}) {
     <div
       className={`flex flex-col items-center leading-none`}
     >
-      <Image
+      <img
         className="dark:invert"
         src="/AsianCafeLogo.png"
         alt="Asian Cafe Logo"
         width={width}
         height={0}
         style={{ height: 'auto' }}
-        priority
       />
       <p className={`text-[40px] text-red font-[700]`}>Asian Cafe</p>
     </div>
