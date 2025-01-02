@@ -21,7 +21,7 @@ export default async function Page() {
   ];
 
   return (
-    <div className="grid grid-rows-[5px_1fr_20px] min-h-screen gap-16">
+    <div className="grid grid-rows-[210px_1fr_20px] min-h-screen gap-8">
       <main className="row-start-2 grid grid-cols-[300px_1fr_300px] gap-x-8">
         <div className='border-2 border-black p-4 h-[350px] col-start-1'>
           <h1 className='text-[20px] font-[600]'>Categories</h1>
