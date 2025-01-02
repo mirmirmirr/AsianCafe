@@ -4,7 +4,7 @@ import { geistSans } from '@/app/ui/fonts';
 export default function ACLogo({width}) {
   return (
     <div
-      className={`${geistSans.className} flex flex-col items-center leading-none`}
+      className={`flex flex-col items-center leading-none`}
     >
       <Image
         className="dark:invert"
