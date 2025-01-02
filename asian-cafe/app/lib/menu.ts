@@ -8,14 +8,13 @@ async function getClient() {
   return client;
 }
 
-export async function fetchSectionItems(sectionName) {
+export async function fetchSectionItems() {
   const client = await getClient();
 
   try {
     const data = await client.sql`
       SELECT *
-      FROM menu
-      WHERE menu.section = ${sectionName};
+      FROM menu;
     `;
 
     return data.rows;

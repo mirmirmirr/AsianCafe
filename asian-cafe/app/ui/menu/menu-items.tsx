@@ -1,12 +1,12 @@
 import { fetchSectionItems } from '@/app/lib/menu';
 
-export default async function MenuItems({sectionName}) {
-  const section = await fetchSectionItems(sectionName);
+export default async function MenuItems({sectionName, allItems}) {
+  const sectionItems = allItems.filter(item => item.section === sectionName);
 
   return (
     <div className='mt-4'>
       <p className='text-[20px] font-[600]'>{sectionName}</p>
-      {section.map((item) => {
+      {sectionItems.map((item) => {
         return (
           <div key={item.id} className='flex flex-row gap-8 justify-between'>
             <div className='flex flex-row gap-2'>
