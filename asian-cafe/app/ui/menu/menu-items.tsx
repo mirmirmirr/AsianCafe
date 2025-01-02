@@ -17,9 +17,10 @@ export default function MenuItems({ sectionName, allItems }) {
       {sectionItems.map((item) => (
         <div
           key={item.id}
+          onClick={() => handleButtonClick(item)}
           className='flex flex-row gap-8 p-1 justify-between hover:bg-darkgreen'
         >
-          <div className='flex flex-row gap-2'>
+          <div className='flex flex-row gap-2 -ml-[20px]'>
             <div className="w-[20px] h-[20px]">
               {item.spicy ? (
                 <img src="/chili.svg" alt="spicy dish" width={20} height={20} />
@@ -28,11 +29,12 @@ export default function MenuItems({ sectionName, allItems }) {
             <p className='w-[30px]'>{item.sectionid}.</p>
             <p>{item.name}</p>
           </div>
+
           <div className='flex flex-row gap-2'>
             <p>{parseFloat(item.price).toFixed(2)}</p>
             <button
               onClick={() => handleButtonClick(item)}
-              className="font-[600] hover:text-red"
+              className="hidden md:block font-[600] hover:text-red"
             >
               Order
             </button>

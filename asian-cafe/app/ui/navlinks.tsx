@@ -17,7 +17,7 @@ export default function NavLinks() {
           href={link.href}
           className='hover:font-[600]'
         >
-          <p className='hidden md:block'>{link.name}</p>
+          <p>{link.name}</p>
         </Link>
       ))}
     </div>
