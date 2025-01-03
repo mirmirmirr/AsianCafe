@@ -33,7 +33,7 @@ export default function Header() {
 
   return (
     <motion.div
-      className={`fixed top-0 left-0 w-[95vw] z-10 bg-lightgreen flex border-b-2 border-black m-8 mt-0 pt-4`}
+      className={`fixed top-[40px] left-0 w-[95vw] z-10 bg-lightgreen flex border-b-2 border-black m-8 mt-0 pt-4`}
       initial={false}
       animate={{
         flexDirection: isScrolled ? 'row' : 'column',

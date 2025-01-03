@@ -1,6 +1,6 @@
 'use client'
 
-import { EmblaCarousel } from "./carousel";
+import { EmblaCarousel } from "./ui/carousel";
 import { useState, useEffect } from 'react';
 import { ACLogoHorizontal, ACLogoVertical } from "./ui/ac-logo";
 import NavLinks from "./ui/navlinks";
@@ -38,7 +38,7 @@ export default function Home() {
         <div className="text-lg">511 E Genesee St, Fayetteville, NY 13066</div>
       </div> */}
 
-    <div className="grid grid-rows-[190px_1fr_20px] justify-items-center min-h-screen gap-6">
+    <div className="grid grid-rows-[230px_1fr_20px] justify-items-center min-h-screen gap-6">
       <main className="flex flex-col relative gap-4 row-start-2 items-center justify-center overflow-hidden">
 
         <div className="flex flex-row gap-8">

@@ -21,9 +21,9 @@ export default async function Page() {
   ];
 
   return (
-    <div className="grid grid-rows-[210px_1fr_20px] min-h-screen gap-8">
+    <div className="grid grid-rows-[240px_1fr_20px] min-h-screen gap-8">
       <main className="row-start-2 md:grid md:grid-cols-[1fr_300px] lg:grid-cols-[300px_1fr_300px] gap-x-8">
-        <div className='hidden lg:block border-2 border-black p-4 h-[350px] col-start-1 sticky top-[100px]'>
+        <div className='hidden lg:block border-2 border-black p-4 h-[350px] col-start-1 sticky top-[140px]'>
           <h1 className='text-[20px] font-[600]'>Categories</h1>
           <ol>
             {sections.map((category, index) => (
@@ -50,7 +50,7 @@ export default async function Page() {
           ))}
         </div>
         <div className='hidden md:block border-l-2 border-black p-4 col-start-2 lg:col-start-3'>
-          <h1 className='text-[20px] font-[600] sticky top-[100px]'>My Order</h1>
+          <h1 className='text-[20px] font-[600] sticky top-[140px]'>My Order</h1>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
