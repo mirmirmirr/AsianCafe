@@ -5,7 +5,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 
 export function EmblaCarousel() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()])
+  const [emblaRef] = useEmblaCarousel({ loop: true, align: "center" }, [Autoplay()])
 
   const images = [
     { src: "/slideshow/chickenteriyaki.jpeg", alt: "Chicken Teriyaki" },
@@ -16,14 +16,15 @@ export function EmblaCarousel() {
   ]
 
   return (
-    <div className="embla mx-auto border-2 border-white border-8" ref={emblaRef} style={{ height: 'calc(100vh - 270px)', width: '50vw' }}>
+    // <div className="embla mx-auto h-[80vh] w-[80vw]" ref={emblaRef}>
+    <div className="embla mx-auto w-[45vw]" ref={emblaRef} style={{ height: 'calc(100vh - 270px)' }}>
       <div className="embla__container h-full">
         {images.map((image, index) => (
           <div key={index} className="embla__slide flex items-center justify-center">
             <img
               src={image.src}
               alt={image.alt}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg"
             />
           </div>
         ))}

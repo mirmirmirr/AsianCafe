@@ -12,9 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.className} antialiased p-8`}>
         <Header />
-        <main>
-         {children}
-        </main>
+        {children}
       </body>
     </html>
   );
