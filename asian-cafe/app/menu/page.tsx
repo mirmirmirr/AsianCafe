@@ -6,18 +6,18 @@ export default async function Page() {
   const allItems = await fetchSectionItems();
 
   const sections = [
-    "Appetizers",
-    "Hibachi Fried Rice",
-    "Japanese Yaki Udon",
-    "Pad Thai",
-    "Thai Red Curry",
-    "Teriyaki Dishes",
-    "Hibachi Dishes",
-    "Rice Bowls",
-    "House Specialty Dishes",
-    "Fresh Steamed Dishes",
-    "Homemade Ramen",
-    "Beverages and Sides",
+    { sectionName: "Appetizers", subSectionNames: [], description: [""] },
+    { sectionName: "Hibachi Fried Rice", subSectionNames: [], description: ["Hibachi Style Fried Rice with Egg and Veg."] },
+    { sectionName: "Japanese Yaki Udon", subSectionNames: [], description: ["Stir-Fried Japanese Wheat Noodles with Veg."] },
+    { sectionName: "Pad Thai", subSectionNames: [], description: ["Stir-Fried Thai Rice Noodles with Eggs, Vegetables and Lime, Topped with Peanuts."] },
+    { sectionName: "Thai Red Curry", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
+    { sectionName: "Teriyaki Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
+    { sectionName: "Hibachi Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
+    { sectionName: "Rice Bowls", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
+    { sectionName: "House Specialty Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
+    { sectionName: "Fresh Steamed Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
+    { sectionName: "Homemade Ramen", subSectionNames: ["Ramen Noodle Soup", "Stir-Fried Ramen Noodles"], description: ["Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil", "Stir-fried noodles with veg and eggs"] },
+    { sectionName: "Beverages and Sides", subSectionNames: [], description: [""] }
   ];
 
   return (
@@ -26,26 +26,26 @@ export default async function Page() {
         <div className='hidden lg:block border-2 border-black p-4 h-[350px] col-start-1 sticky top-[100px]'>
           <h1 className='text-[20px] font-[600]'>Categories</h1>
           <ol>
-            {sections.map((category) => (
-                <li key={category}>
+            {sections.map((category, index) => (
+                <li key={index}>
                   <a
-                    href={`#${category.replace(/\s+/g, "-").toLowerCase()}`}
+                    href={`#${category.sectionName.replace(/\s+/g, "-").toLowerCase()}`}
                     className="hover:underline"
                   >
-                    {category}
+                    {category.sectionName}
                   </a>
                 </li>
               ))}
           </ol>
         </div>
         <div className='md:col-start-1 lg:col-start-2'>
-          {sections.map((category) => (
+          {sections.map((category, index) => (
             <div
-              key={category}
-              id={category.replace(/\s+/g, "-").toLowerCase()}
+              key={index}
+              id={category.sectionName.replace(/\s+/g, "-").toLowerCase()}
             >
-              <div className='hidden md:block'> <MenuItems sectionName={category} allItems={allItems} /> </div>
-              <div className='md:hidden'> <MenuItemsDropDown sectionName={category} allItems={allItems} /> </div>
+              <div className='hidden md:block'> <MenuItems sectionName={category.sectionName} allItems={allItems} subSectionName={category.subSectionNames} descriptions={category.description}/> </div>
+              <div className='md:hidden'> <MenuItemsDropDown sectionName={category.sectionName} allItems={allItems} subSectionName={category.subSectionNames} descriptions={category.description} /> </div>
             </div>
           ))}
         </div>
