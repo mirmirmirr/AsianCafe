@@ -38,7 +38,8 @@ def get_extras(request, itemID):
       WITH addon_codes AS (
         SELECT addon_category_id
         FROM menu_addon
-        WHERE menu_item_id = %s
+          LEFT JOIN menu_item_code USING (menu_item_id)
+        WHERE menu_item_code = %s
       )
       SELECT
         ac.title AS category_title,
@@ -52,4 +53,4 @@ def get_extras(request, itemID):
     rows = cursor.fetchall()
     column_names = [desc[0] for desc in cursor.description]
   items = [dict(zip(column_names, row)) for row in rows]
-  return JsonResponse({"extras": items})
+  return JsonResponse(utils.format_extras(items))

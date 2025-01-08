@@ -17,22 +17,22 @@ def clean_menu(items):
         menu[section]["subsections"][subsection]["description"] = item["subsection_description"]
       
       menu[section]["subsections"][subsection]["items"].append({
-        "menu_item_name": item["menu_item_name"],
-        "menu_item_code": item["item_code"],
+        "name": item["menu_item_name"],
+        "code": item["item_code"],
         "price": item["price"],
         "spicy": item["spicy"],
-        "item_description": item["item_description"]
+        "desc": item["item_description"]
       })
     else:
       if "items" not in menu[section]:
         menu[section]["items"] = []
       
       menu[section]["items"].append({
-        "menu_item_name": item["menu_item_name"],
-        "menu_item_code": item["item_code"],
+        "name": item["menu_item_name"],
+        "code": item["item_code"],
         "price": item["price"],
         "spicy": item["spicy"],
-        "item_description": item["item_description"]
+        "desc": item["item_description"]
       })
       
   return menu
@@ -45,14 +45,14 @@ def format_menu(items):
   for section_title, section_data in menudict.items():
     section_entry = {
       "section" : section_title,
-      "section_desc" : section_data["description"],
+      "desc" : section_data["description"],
       "subsections": []
     }
 
     for subsection_title, subsection_data in section_data["subsections"].items():
       subsection_entry = {
         "subsection" : subsection_title,
-        "subsection_desc" : subsection_data["description"],
+        "desc" : subsection_data["description"],
         "menu_items": subsection_data["items"]
       }
 
@@ -65,9 +65,25 @@ def format_menu(items):
   
   return formatted_menu
 
+def format_extras(items):
+  extras = dict()
+  for item in items:
+    category = item["category_title"]
+    
+    if category not in extras:
+      extras[category] = []
+    
+    extras[category].append({
+      "name": item["addon_name"],
+      "price": item["price"],
+      "get_quantity": item["get_quantity"]
+    })
+
+  return extras
+
 if __name__ in "__main__":
   with open("backend/api/blah.json", "r") as file:
       json_data = json.load(file)
-  data = format_menu(json_data)
-
+  data = format_extras(json_data)
+  print(json_data)
   print(data)
