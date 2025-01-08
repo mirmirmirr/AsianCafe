@@ -71,15 +71,15 @@ def format_extras(items):
     category = item["category_title"]
     
     if category not in extras:
-      extras[category] = []
+      extras[category] = {"category": category, "options": []}
     
-    extras[category].append({
+    extras[category]["options"].append({
       "name": item["addon_name"],
       "price": item["price"],
       "get_quantity": item["get_quantity"]
     })
 
-  return extras
+  return list(extras.values())
 
 if __name__ in "__main__":
   with open("backend/api/blah.json", "r") as file:

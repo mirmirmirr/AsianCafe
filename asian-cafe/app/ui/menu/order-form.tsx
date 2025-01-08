@@ -36,7 +36,7 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
         </button>
         <h3 className="text-lg font-bold mb-4">{selectedItem.name}</h3>
         <form onSubmit={handleAddToOrder}>
-          {/* <ExtraOptions selectedItem={selectedItem} /> */}
+          <ExtraOptions itemCode={selectedItem.code} />
           <div className="mb-4 flex items-center justify-between">
             <label htmlFor="quantity" className="font-medium">
               Quantity:

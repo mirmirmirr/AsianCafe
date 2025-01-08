@@ -53,4 +53,4 @@ def get_extras(request, itemID):
     rows = cursor.fetchall()
     column_names = [desc[0] for desc in cursor.description]
   items = [dict(zip(column_names, row)) for row in rows]
-  return JsonResponse(utils.format_extras(items))
+  return JsonResponse({"extras" : utils.format_extras(items)})
