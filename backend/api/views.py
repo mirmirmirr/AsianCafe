@@ -31,3 +31,25 @@ def get_menu(request):
   items = [dict(zip(column_names, row)) for row in rows]
 
   return JsonResponse({"menu": utils.format_menu(items)})
+
+def get_extras(request, itemID):
+  with connection.cursor() as cursor:
+    cursor.execute ("""
+      WITH addon_codes AS (
+        SELECT addon_category_id
+        FROM menu_addon
+        WHERE menu_item_id = %s
+      )
+      SELECT
+        ac.title AS category_title,
+        a.addon_name,
+        a.price,
+        a.get_quantity
+      FROM addon a
+        JOIN addon_category ac USING (addon_category_id)
+        JOIN addon_codes ad ON a.addon_category_id = ad.addon_category_id;
+      """, [itemID])
+    rows = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]
+  items = [dict(zip(column_names, row)) for row in rows]
+  return JsonResponse({"extras": items})
