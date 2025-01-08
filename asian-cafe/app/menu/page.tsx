@@ -1,24 +1,28 @@
 import { fetchSectionItems } from '@/app/lib/menu';
 import Link from 'next/link';
-import { MenuItems, MenuItemsDropDown} from "../ui/menu/menu-items";
+import { Section, SectionMobile } from "../ui/menu/menu-items";
+import axios from '@/app/lib/axios';
+
+// export async function getServerSideProps() {
+//   try {
+//     const response = await axios.get('/menu');
+//     const data = response.data;
+
+//     return {
+//       props: { data },
+//     };
+//   } catch (error) {
+//     console.error("Error fetching data:", error);
+//     return { props: { data: null } };
+//   }
+// }
 
 export default async function Page() {
-  const allItems = await fetchSectionItems();
+  const response = await axios.get('/menu');
+  const data = response.data;
 
-  const sections = [
-    { sectionName: "Appetizers", subSectionNames: [], description: [""] },
-    { sectionName: "Hibachi Fried Rice", subSectionNames: [], description: ["Hibachi Style Fried Rice with Egg and Veg."] },
-    { sectionName: "Japanese Yaki Udon", subSectionNames: [], description: ["Stir-Fried Japanese Wheat Noodles with Veg."] },
-    { sectionName: "Pad Thai", subSectionNames: [], description: ["Stir-Fried Thai Rice Noodles with Eggs, Vegetables and Lime, Topped with Peanuts."] },
-    { sectionName: "Thai Red Curry", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
-    { sectionName: "Teriyaki Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
-    { sectionName: "Hibachi Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
-    { sectionName: "Rice Bowls", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
-    { sectionName: "House Specialty Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
-    { sectionName: "Fresh Steamed Dishes", subSectionNames: [], description: ["Served with White Rice, or Fried Rice Extra $2"] },
-    { sectionName: "Homemade Ramen", subSectionNames: ["Ramen Noodle Soup", "Stir-Fried Ramen Noodles"], description: ["Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil", "Stir-fried noodles with veg and eggs"] },
-    { sectionName: "Beverages and Sides", subSectionNames: [], description: [""] }
-  ];
+  const sections = data['menu'];
+  // console.log(sections[0].section);
 
   return (
     <div className="grid grid-rows-[240px_1fr_20px] min-h-screen gap-8">
@@ -29,10 +33,10 @@ export default async function Page() {
             {sections.map((category, index) => (
                 <li key={index}>
                   <a
-                    href={`#${category.sectionName.replace(/\s+/g, "-").toLowerCase()}`}
+                    href={`#${category.section.replace(/\s+/g, "-").toLowerCase()}`}
                     className="hover:underline"
                   >
-                    {category.sectionName}
+                    {category.section}
                   </a>
                 </li>
               ))}
@@ -42,10 +46,10 @@ export default async function Page() {
           {sections.map((category, index) => (
             <div
               key={index}
-              id={category.sectionName.replace(/\s+/g, "-").toLowerCase()}
+              id={category.section.replace(/\s+/g, "-").toLowerCase()}
             >
-              <div className='hidden md:block'> <MenuItems sectionName={category.sectionName} allItems={allItems} subSectionName={category.subSectionNames} descriptions={category.description}/> </div>
-              <div className='md:hidden'> <MenuItemsDropDown sectionName={category.sectionName} allItems={allItems} subSectionName={category.subSectionNames} descriptions={category.description} /> </div>
+              <div className='hidden md:block'> <Section section={category}/> </div>
+              <div className='md:hidden'> <SectionMobile section={category} /> </div>
             </div>
           ))}
         </div>
