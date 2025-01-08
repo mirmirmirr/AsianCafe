@@ -1,17 +1,16 @@
 "use client";
 import { useState } from "react";
 import ExtraOptions from "./extra-options";
+import QuantityCounter from "./counter";
 
 export default function OrderForm({ selectedItem, setSelectedItem }) {
   const [quantity, setQuantity] = useState(1);
+  const [selectedExtrasPrice, setSelectedExtrasPrice] = useState(0);
+  const [selectedExtras, setSelectedExtras] = useState([]);
 
   const handleFormClose = () => {
     setSelectedItem(null);
   };
-
-  const increaseQuantity = () => setQuantity((prev) => prev + 1);
-  const decreaseQuantity = () =>
-    setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
 
   const handleAddToOrder = (e) => {
     e.preventDefault();
@@ -21,12 +20,14 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
       name: selectedItem.name,
       price: selectedItem.price,
       quantity,
+      extras: selectedExtras,
+      total: (selectedItem.price + selectedExtrasPrice) * quantity,
     });
     setSelectedItem(null); // Close the form after adding to order
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md relative">
         <button
           onClick={handleFormClose}
@@ -35,32 +36,10 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
           ✖
         </button>
         <h3 className="text-lg font-bold mb-4">{selectedItem.name}</h3>
-        <form onSubmit={handleAddToOrder}>
-          <ExtraOptions itemCode={selectedItem.code} />
-          <div className="mb-4 flex items-center justify-between">
-            <label htmlFor="quantity" className="font-medium">
-              Quantity:
-            </label>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={decreaseQuantity}
-                className="px-2 py-1 bg-gray-200 text-black rounded hover:bg-gray-300"
-              >
-                -
-              </button>
-              <p className="w-6 text-center">{quantity}</p>
-              <button
-                type="button"
-                onClick={increaseQuantity}
-                className="px-2 py-1 bg-gray-200 text-black rounded hover:bg-gray-300"
-              >
-                +
-              </button>
-            </div>
-          </div>
+        <form>
+          <ExtraOptions itemCode={selectedItem.code} setSelectedExtrasPrice={setSelectedExtrasPrice} setSelectedExtras={setSelectedExtras} />
           <div className="mb-4">
-            <label htmlFor="specialRequests" className="block font-medium">
+            <label className="block font-medium">
               Special Requests:
             </label>
             <textarea
@@ -69,12 +48,15 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
               className="w-full p-2 border rounded"
             ></textarea>
           </div>
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-between gap-4">
+            <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
+
             <button
               type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
+              onClick={handleAddToOrder}
             >
-              Add to Order  ${parseFloat(selectedItem.price).toFixed(2)}
+              Add to Order  ${((selectedItem.price + selectedExtrasPrice) * quantity).toFixed(2)}
             </button>
           </div>
         </form>

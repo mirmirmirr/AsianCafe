@@ -1,7 +1,7 @@
 import { fetchSectionItems } from '@/app/lib/menu';
 import Link from 'next/link';
 import { Section, SectionMobile } from "../ui/menu/menu-items";
-import axios from '@/app/lib/axios';
+import api from '@/app/lib/axios';
 
 // export async function getServerSideProps() {
 //   try {
@@ -18,7 +18,7 @@ import axios from '@/app/lib/axios';
 // }
 
 export default async function Page() {
-  const response = await axios.get('/menu');
+  const response = await api.get('/menu');
   const data = response.data;
 
   const sections = data['menu'];
