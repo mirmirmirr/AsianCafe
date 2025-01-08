@@ -1,0 +1,152 @@
+[
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Ramen Noodle Soup",
+    "subsection_description": "Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil",
+    "menu_item_name": "Beef Ramen",
+    "price": 12.5,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Ramen Noodle Soup",
+    "subsection_description": "Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil",
+    "menu_item_name": "Vegetable Ramen",
+    "price": 12.5,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Ramen Noodle Soup",
+    "subsection_description": "Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil",
+    "menu_item_name": "Chicken Ramen",
+    "price": 12.5,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Ramen Noodle Soup",
+    "subsection_description": "Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil",
+    "menu_item_name": "Shoyu Prok Belly Ramen",
+    "price": 12.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Ramen Noodle Soup",
+    "subsection_description": "Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil",
+    "menu_item_name": "Red Braised Beef Ramen",
+    "price": 12.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Ramen Noodle Soup",
+    "subsection_description": "Homemade Fresh Ramen (or Udon or Rice Noodle) in Tonkotsu broth (or Spicy Curry Broth, Miso Broth or Clear Vegetable Broth) with egg, fish cake, bamboo shoot, sweet corn, seaweed, scallions, and red chili oil",
+    "menu_item_name": "Jumbo Shrimp Ramen",
+    "price": 12.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Stir-Fried Ramen Noodles",
+    "subsection_description": "Stir-fried noodles with veg and eggs",
+    "menu_item_name": "Seasonal Vegetable Stir-Fried Noodles",
+    "price": 12.5,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Stir-Fried Ramen Noodles",
+    "subsection_description": "Stir-fried noodles with veg and eggs",
+    "menu_item_name": "Roast Pork Stir-Fried Noodes",
+    "price": 12.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Stir-Fried Ramen Noodles",
+    "subsection_description": "Stir-fried noodles with veg and eggs",
+    "menu_item_name": "Sliced Chicken Stir-Fried Noodes",
+    "price": 12.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Stir-Fried Ramen Noodles",
+    "subsection_description": "Stir-fried noodles with veg and eggs",
+    "menu_item_name": "Sliced Beef Stir-Fried Noodes",
+    "price": 13.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Stir-Fried Ramen Noodles",
+    "subsection_description": "Stir-fried noodles with veg and eggs",
+    "menu_item_name": "Jump Shrimp Stir-Fried Noodes",
+    "price": 13.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Homemade Ramen",
+    "section_description": null,
+    "subsection_title": "Stir-Fried Ramen Noodles",
+    "subsection_description": "Stir-fried noodles with veg and eggs",
+    "menu_item_name": "Braised Streaky Pork Stir-Fried Noodes",
+    "price": 13.95,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Beverages and Sides",
+    "section_description": null,
+    "subsection_title": null,
+    "subsection_description": null,
+    "menu_item_name": "Can Soda",
+    "price": 1.5,
+    "spicy": false,
+    "item_description": "Coke, Diet Coke, Sprite, Ginger Ale, Pepsi"
+  },
+  {
+    "section_title": "Beverages and Sides",
+    "section_description": null,
+    "subsection_title": null,
+    "subsection_description": null,
+    "menu_item_name": "Bottle Water",
+    "price": 1.5,
+    "spicy": false,
+    "item_description": null
+  },
+  {
+    "section_title": "Beverages and Sides",
+    "section_description": null,
+    "subsection_title": null,
+    "subsection_description": null,
+    "menu_item_name": "Side White Rice",
+    "price": 1.95,
+    "spicy": false,
+    "item_description": null
+  }
+]
