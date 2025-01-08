@@ -10,6 +10,7 @@ def get_menu(request):
     cursor.execute(
       """
         SELECT 
+          mi.menu_item_id AS id,
           ms.title AS section_title, 
           ms.description AS section_description,
           mss.title AS subsection_title,
@@ -42,6 +43,7 @@ def get_extras(request, itemID):
         WHERE menu_item_code = %s
       )
       SELECT
+        a.addon_id as id,
         ac.title AS category_title,
         a.addon_name,
         a.price,

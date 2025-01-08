@@ -17,6 +17,7 @@ def clean_menu(items):
         menu[section]["subsections"][subsection]["description"] = item["subsection_description"]
       
       menu[section]["subsections"][subsection]["items"].append({
+        "id": item["id"],
         "name": item["menu_item_name"],
         "code": item["item_code"],
         "price": item["price"],
@@ -28,6 +29,7 @@ def clean_menu(items):
         menu[section]["items"] = []
       
       menu[section]["items"].append({
+        "id": item["id"],
         "name": item["menu_item_name"],
         "code": item["item_code"],
         "price": item["price"],
@@ -74,6 +76,7 @@ def format_extras(items):
       extras[category] = {"category": category, "options": []}
     
     extras[category]["options"].append({
+      "id": item["id"],
       "name": item["addon_name"],
       "price": item["price"],
       "get_quantity": item["get_quantity"]
