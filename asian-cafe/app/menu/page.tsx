@@ -2,6 +2,8 @@ import { fetchSectionItems } from '@/app/lib/menu';
 import Link from 'next/link';
 import { Section, SectionMobile } from "../ui/menu/menu-items";
 import api from '@/app/lib/axios';
+import Order from '@/app/ui/menu/order';
+import OrderSummary from '../ui/menu/order-summary';
 
 // export async function getServerSideProps() {
 //   try {
@@ -26,7 +28,7 @@ export default async function Page() {
 
   return (
     <div className="grid grid-rows-[240px_1fr_20px] min-h-screen gap-8">
-      <main className="row-start-2 md:grid md:grid-cols-[1fr_300px] lg:grid-cols-[300px_1fr_300px] gap-x-8">
+      <main className="row-start-2 md:grid md:grid-cols-[1fr_350px] lg:grid-cols-[300px_1fr_350px] gap-x-8">
         <div className='hidden lg:block border-2 border-black p-4 h-[350px] col-start-1 sticky top-[140px]'>
           <h1 className='text-[20px] font-[600]'>Categories</h1>
           <ol>
@@ -53,8 +55,10 @@ export default async function Page() {
             </div>
           ))}
         </div>
-        <div className='hidden md:block border-l-2 border-black p-4 col-start-2 lg:col-start-3'>
-          <h1 className='text-[20px] font-[600] sticky top-[140px]'>My Order</h1>
+        <div className='hidden md:block border-l-2 border-black p-4 pr-0 col-start-2 lg:col-start-3'>
+          <div className='sticky top-[140px]'>
+            <Order />
+          </div>
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">

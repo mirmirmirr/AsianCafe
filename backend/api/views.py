@@ -130,17 +130,24 @@ class CheckoutView(APIView):
 
         return JsonResponse({"message": "Checkout successful!"}, status=status.HTTP_200_OK)
 
-def get_order(request):
-  if request.method == 'GET':
+class GetOrderView(APIView):
+  def get(self, request):
     try:
-
+      print(f"Session Key: {request.session.session_key}")
+      print(f"Session Data: {request.session.items()}") 
+      
+      print("trying")
       session = request.session
       order_id = session.get('order_id')
-
+      
+      print("trying 2 ", order_id)
       # order = Order.objects.get(id=order_id)
       # serializer = OrderSerializer(order)
 
-      with connection.cursor as cursor:
+      # if order_id: 
+      #   print("order_id: ", order_id)
+
+      with connection.cursor() as cursor:
         cursor.execute ("""
           WITH orderitems AS (
             SELECT 
@@ -151,7 +158,7 @@ def get_order(request):
               oi.extras
             FROM api_order as o
               LEFT JOIN api_orderitem as oi ON o.id = oi.order_id
-            WHERE o.id = 1
+            WHERE o.id = %s
           )
           SELECT
             oi.id,
@@ -164,11 +171,15 @@ def get_order(request):
             LEFT JOIN menu_item as mi USING (menu_item_id)
             LEFT JOIN menu_item_code as mic USING (menu_item_id);
           """, [order_id])
-        
         rows = cursor.fetchall()
-
-      return JsonResponse({"order: ", rows})
+        column_names = [desc[0] for desc in cursor.description]
+      items = [dict(zip(column_names, row)) for row in rows]
+      print("got rows")
+      return JsonResponse({"order" : items})
+      # else:
+      #   print("no order")
+      #   return JsonResponse({"no order yet"})
+      
     except Exception as e:
-      return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-  else:
-    return JsonResponse({"This is only for adding an item to the current order."}, status=status.HTTP_400_BAD_REQUEST)
+      print("Error:", str(e))
+      return JsonResponse({"error": f"Failed to fetch order: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)

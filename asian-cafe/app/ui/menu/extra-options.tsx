@@ -74,14 +74,14 @@ function RegularOptions({ categoryName, options, optionIndex, setSelectedExtras,
       
       if (isChecked) {
         if (categoryIndex === -1) {
-          updatedExtras.push({ category: categoryName, chosen_options: [addonName] });
+          updatedExtras.push({ category: categoryName, chosen_options: [`Add ${addonName}`] });
         } else {
-          updatedExtras[categoryIndex].chosen_options.push(addonName);
+          updatedExtras[categoryIndex].chosen_options.push(`Add ${addonName}`);
         }
       } else {
         if (categoryIndex !== 1) {
           updatedExtras[categoryIndex].chosen_options = updatedExtras[categoryIndex].chosen_options.filter(
-            (opt) => opt !== addonName
+            (opt) => opt !== `Add ${addonName}`
           );
 
           if (updatedExtras[categoryIndex].chosen_options.length === 0) {
