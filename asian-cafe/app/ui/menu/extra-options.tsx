@@ -11,7 +11,7 @@ export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedE
   useEffect(() => {
     async function fetchExtras() {
       try {
-        const response = await api.get(`/extras/${itemCode}/`);
+        const response = await api.get(`/api/extras/${itemCode}/`);
         const data = response.data;
         setExtras(data["extras"]);
         setLoading(false);
@@ -20,7 +20,7 @@ export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedE
       }
     }
     fetchExtras();
-  }, [itemCode]);
+  }, []);
   
   console.log(extras);
   if (isLoading) return <p>Loading...</p>
@@ -31,9 +31,9 @@ export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedE
         <div key={index}>
           <h3 className='font-[600]'>{ category.category }</h3>
           {["Rice", "Noodle Type", "Broth"].includes(category.category) ? (
-              <DropDownOptions options={category.options} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
+              <DropDownOptions categoryName={category.category} options={category.options} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
           ) : (
-            <RegularOptions options={category.options} optionIndex={index} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
+            <RegularOptions categoryName={category.category}  options={category.options} optionIndex={index} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
           )}
         </div>
       ))}
@@ -41,7 +41,7 @@ export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedE
   );
 }
 
-function RegularOptions({ options, optionIndex, setSelectedExtras, setSelectedExtrasPrice }) {
+function RegularOptions({ categoryName, options, optionIndex, setSelectedExtras, setSelectedExtrasPrice }) {
   const [quantities, setQuantities] = useState(
     options.reduce((acc, option) => {
       acc[option.name] = 1;
@@ -58,6 +58,7 @@ function RegularOptions({ options, optionIndex, setSelectedExtras, setSelectedEx
 
   const handleCheckboxChange = (e) => {
     const isChecked = e.target.checked;
+    const addonName = e.target.name;
     const price = parseFloat(e.target.value);
     const quantity = quantities[e.target.name];
 
@@ -65,6 +66,32 @@ function RegularOptions({ options, optionIndex, setSelectedExtras, setSelectedEx
       ...prev,
       [e.target.name]: isChecked,
     }));
+    console.log("here");
+    setSelectedExtras((prev) => {
+      const updatedExtras = [...prev];
+      const categoryIndex = updatedExtras.findIndex((item) => item.category === categoryName);
+      console.log("selecting: ", updatedExtras);
+      
+      if (isChecked) {
+        if (categoryIndex === -1) {
+          updatedExtras.push({ category: categoryName, chosen_options: [addonName] });
+        } else {
+          updatedExtras[categoryIndex].chosen_options.push(addonName);
+        }
+      } else {
+        if (categoryIndex !== 1) {
+          updatedExtras[categoryIndex].chosen_options = updatedExtras[categoryIndex].chosen_options.filter(
+            (opt) => opt !== addonName
+          );
+
+          if (updatedExtras[categoryIndex].chosen_options.length === 0) {
+            updatedExtras.splice(categoryIndex, 1);
+          }
+        }
+      }
+
+      return updatedExtras;
+    })
 
     if (isChecked) { 
       setSelectedExtrasPrice((prev) => prev + price * quantity); 
@@ -113,7 +140,7 @@ function RegularOptions({ options, optionIndex, setSelectedExtras, setSelectedEx
   )
 }
 
-function DropDownOptions({ options, setSelectedExtras, setSelectedExtrasPrice }) {
+function DropDownOptions({ categoryName, options, setSelectedExtras, setSelectedExtrasPrice }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
@@ -122,7 +149,36 @@ function DropDownOptions({ options, setSelectedExtras, setSelectedExtrasPrice })
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  useEffect(() => {
+
+    setSelectedExtras((prev) => {
+      const updatedExtras = [...prev];
+      const categoryIndex = updatedExtras.findIndex((item) => item.category === categoryName);
+
+      if (categoryIndex === -1) {
+        updatedExtras.push({ category: categoryName, chosen_options: [options[0].name] });
+      }
+
+      return updatedExtras;
+    });
+
+    setSelectedExtrasPrice((prev) => prev + options[0].price);
+  }, [categoryName, options, setSelectedExtras, setSelectedExtrasPrice]);
+
   const handleOptionSelect = (option) => {
+    setSelectedExtras((prev) => {
+      const updatedExtras = [...prev];
+      const categoryIndex = updatedExtras.findIndex((item) => item.category === categoryName);
+
+      if (categoryIndex === -1) {
+        updatedExtras.push({ category: categoryName, chosen_options: [option.name] });
+      } else {
+        updatedExtras[categoryIndex].chosen_options = [option.name];
+      }
+
+      return updatedExtras;
+    });
+
     setSelectedExtrasPrice((prev) => prev - selectedOption.price + option.price);    
 
     setSelectedOption(option);

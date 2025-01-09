@@ -18,7 +18,7 @@ import api from '@/app/lib/axios';
 // }
 
 export default async function Page() {
-  const response = await api.get('/menu');
+  const response = await api.get('/api/menu');
   const data = response.data;
 
   const sections = data['menu'];

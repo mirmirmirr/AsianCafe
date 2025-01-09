@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+from corsheaders.defaults import default_headers
 
 load_dotenv()
 
@@ -38,8 +39,27 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# CORS_ALLOWED_ORIGINS = []
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_HEADERS = [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+    "User-Agent",
+    "Access-Control-Allow-Credentials",
+]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_DOMAIN = 'localhost'
+
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False
+
+# SESSION_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SECURE = True
 
 # Application definition
 
@@ -54,7 +74,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders"
 ]
-
+#send cors toekn inside the api quest
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",

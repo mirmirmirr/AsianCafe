@@ -1,7 +1,21 @@
 "use client";
+
+import api from '@/app/lib/axios';
 import { useState } from "react";
 import ExtraOptions from "./extra-options";
 import QuantityCounter from "./counter";
+
+function getCookie(name) {
+  let cookieArr = document.cookie.split(';');
+  console.log(cookieArr)
+  for (let i = 0; i < cookieArr.length; i++) {
+    let cookie = cookieArr[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return null;
+}
 
 export default function OrderForm({ selectedItem, setSelectedItem }) {
   const [quantity, setQuantity] = useState(1);
@@ -12,8 +26,30 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
     setSelectedItem(null);
   };
 
-  const handleAddToOrder = (e) => {
+  const handleAddToOrder = async (e) => {
     e.preventDefault();
+
+    try {
+      const sessionId = getCookie('sessionid');
+      console.log('Session ID:', sessionId);
+
+      const payload = {
+        menu_item_id: selectedItem.id,
+        total_price: (selectedItem.price + selectedExtrasPrice) * quantity,
+        extras: selectedExtras,
+        quantity: quantity,
+      };
+
+      const response = await api.post("/api/add_order_item", payload, { withCredentials: true });
+
+      console.log("order added:", response.data);
+
+      setSelectedItem(null);
+
+    } catch (error) {
+      console.error("Error adding order item:", error.response?.data || error.message);
+    }
+
     // Logic to add item to the cart (implement your `addToCart` function here)
     console.log("Order added:", {
       id: selectedItem.id,
