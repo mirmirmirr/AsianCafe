@@ -106,7 +106,8 @@ class AddOrderItemView(APIView):
           menu_item_id=data['menu_item_id'],
           total_price=data['total_price'],
           extras=data.get('extras', {}),
-          quantity=data['quantity']
+          quantity=data['quantity'],
+          special_requests=data.get('special_requests', None)
         )
 
         print(f"Session Key: {request.session.session_key}")
@@ -124,6 +125,28 @@ def delete_order_item(request, order_item_id):
       order_item = OrderItem.objects.get(id=order_item_id)
       order_item.delete()
       return JsonResponse({"message": "Order item deleted successfully!"}, status=status.HTTP_200_OK)
+  except OrderItem.DoesNotExist:
+      raise NotFound("Order item does not exist.")
+
+@api_view(['GET'])
+def get_order_item(request, order_item_id):
+  try:
+      order_item = OrderItem.objects.get(id=order_item_id)
+      serializer = OrderItemSerializer(order_item)
+      return JsonResponse(serializer.data)
+  except OrderItem.DoesNotExist:
+      raise NotFound("Order item does not exist.")
+  
+@api_view(['PATCH'])
+def edit_order_item(request, order_item_id):
+  try:
+      order_item = OrderItem.objects.get(id=order_item_id)
+      data = JSONParser().parse(request)
+      serializer = OrderItemSerializer(order_item, data=data, partial=True)
+      if serializer.is_valid():
+          serializer.save()
+          return JsonResponse(serializer.data)
+      return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   except OrderItem.DoesNotExist:
       raise NotFound("Order item does not exist.")
 

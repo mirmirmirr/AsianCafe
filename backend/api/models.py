@@ -16,6 +16,7 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     extras = models.JSONField()
     quantity = models.IntegerField()
+    special_requests = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"Item {self.id} in Order {self.order.id}"

@@ -1,1 +1,7 @@
 mirandazheng@graben-172 backend % /usr/local/bin/python3 /Users/mirandazheng/Downloads/coding/html_css/ac_website/backend/manage.py startapp api
+
+ps aux | grep postgres  
+brew services list  
+lsof -i :5173 | grep LISTEN    
+
+pipenv shell
