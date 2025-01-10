@@ -117,7 +117,16 @@ class AddOrderItemView(APIView):
         return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     else:
       return JsonResponse({"This is only for adding an item to the current order."}, status=status.HTTP_400_BAD_REQUEST)
-  
+
+@api_view(['DELETE'])
+def delete_order_item(request, order_item_id):
+  try:
+      order_item = OrderItem.objects.get(id=order_item_id)
+      order_item.delete()
+      return JsonResponse({"message": "Order item deleted successfully!"}, status=status.HTTP_200_OK)
+  except OrderItem.DoesNotExist:
+      raise NotFound("Order item does not exist.")
+
 class CheckoutView(APIView):
     def post(self, request):
         session = request.session
@@ -151,7 +160,8 @@ class GetOrderView(APIView):
         cursor.execute ("""
           WITH orderitems AS (
             SELECT 
-              o.id,
+              oi.id,
+              o.id as order_id,
               oi.quantity,
               oi.menu_item_id,
               oi.total_price,
@@ -162,6 +172,7 @@ class GetOrderView(APIView):
           )
           SELECT
             oi.id,
+            oi.order_id,
             oi.total_price,
             oi.extras,
             oi.quantity,
@@ -169,7 +180,8 @@ class GetOrderView(APIView):
             mic.menu_item_code
           FROM orderitems as oi
             LEFT JOIN menu_item as mi USING (menu_item_id)
-            LEFT JOIN menu_item_code as mic USING (menu_item_id);
+            LEFT JOIN menu_item_code as mic USING (menu_item_id)
+          ORDER BY oi.id ASC;
           """, [order_id])
         rows = cursor.fetchall()
         column_names = [desc[0] for desc in cursor.description]
