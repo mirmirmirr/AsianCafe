@@ -188,7 +188,8 @@ class GetOrderView(APIView):
               oi.quantity,
               oi.menu_item_id,
               oi.total_price,
-              oi.extras
+              oi.extras,
+              oi.special_requests
             FROM api_order as o
               LEFT JOIN api_orderitem as oi ON o.id = oi.order_id
             WHERE o.id = %s
@@ -199,6 +200,7 @@ class GetOrderView(APIView):
             oi.total_price,
             oi.extras,
             oi.quantity,
+            oi.special_requests,
             mi.menu_item_name,
             mic.menu_item_code
           FROM orderitems as oi

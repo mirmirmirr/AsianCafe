@@ -4,9 +4,9 @@ import api from '@/app/lib/axios';
 import { useEffect, useState } from 'react';
 import QuantityCounter from './counter';
 
-export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedExtrasPrice }) {
+export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
   const [extras, setExtras] = useState(null);
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchExtras() {
@@ -20,7 +20,7 @@ export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedE
       }
     }
     fetchExtras();
-  }, []);
+  }, [itemCode]);
   
   console.log(extras);
   if (isLoading) return <p>Loading...</p>
@@ -33,7 +33,7 @@ export default function ExtraOptions({ itemCode, setSelectedExtras, setSelectedE
           {["Rice", "Noodle Type", "Broth"].includes(category.category) ? (
               <DropDownOptions categoryName={category.category} options={category.options} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
           ) : (
-            <RegularOptions categoryName={category.category}  options={category.options} optionIndex={index} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
+            <RegularOptions categoryName={category.category} options={category.options} optionIndex={index} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
           )}
         </div>
       ))}
@@ -68,30 +68,26 @@ function RegularOptions({ categoryName, options, optionIndex, setSelectedExtras,
     }));
     console.log("here");
     setSelectedExtras((prev) => {
-      const updatedExtras = [...prev];
-      const categoryIndex = updatedExtras.findIndex((item) => item.category === categoryName);
-      console.log("selecting: ", updatedExtras);
-      
+      const updatedExtras = { ...prev };
+      const category = updatedExtras[categoryName];
+
       if (isChecked) {
-        if (categoryIndex === -1) {
-          updatedExtras.push({ category: categoryName, chosen_options: [`Add ${addonName}`] });
+        if (!category) {
+          updatedExtras[categoryName] = { category: categoryName, chosen_options: [`Add ${addonName}`] };
         } else {
-          updatedExtras[categoryIndex].chosen_options.push(`Add ${addonName}`);
+          category.chosen_options.push(`Add ${addonName}`);
         }
       } else {
-        if (categoryIndex !== 1) {
-          updatedExtras[categoryIndex].chosen_options = updatedExtras[categoryIndex].chosen_options.filter(
-            (opt) => opt !== `Add ${addonName}`
-          );
-
-          if (updatedExtras[categoryIndex].chosen_options.length === 0) {
-            updatedExtras.splice(categoryIndex, 1);
+        if (category) {
+          category.chosen_options = category.chosen_options.filter((opt) => opt !== `Add ${addonName}`);
+          if (category.chosen_options.length === 0) {
+          delete updatedExtras[categoryName];
           }
         }
       }
 
       return updatedExtras;
-    })
+    });
 
     if (isChecked) { 
       setSelectedExtrasPrice((prev) => prev + price * quantity); 
@@ -153,10 +149,12 @@ function DropDownOptions({ categoryName, options, setSelectedExtras, setSelected
 
     setSelectedExtras((prev) => {
       const updatedExtras = [...prev];
-      const categoryIndex = updatedExtras.findIndex((item) => item.category === categoryName);
+      const category = updatedExtras[categoryName];
 
-      if (categoryIndex === -1) {
-        updatedExtras.push({ category: categoryName, chosen_options: [options[0].name] });
+      if (!category) {
+        updatedExtras[categoryName] = { category: categoryName, chosen_options: [options[0].name] };
+      } else {
+        updatedExtras[categoryName].chosen_options = [options[0].name];
       }
 
       return updatedExtras;

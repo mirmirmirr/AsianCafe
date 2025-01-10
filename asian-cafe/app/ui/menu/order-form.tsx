@@ -1,29 +1,35 @@
 "use client";
 
 import api from '@/app/lib/axios';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useOrder } from './OrderContext';
 
 import ExtraOptions from "./extra-options";
 import QuantityCounter from "./counter";
 
-function getCookie(name) {
-  let cookieArr = document.cookie.split(';');
-  console.log(cookieArr)
-  for (let i = 0; i < cookieArr.length; i++) {
-    let cookie = cookieArr[i].trim();
-    if (cookie.startsWith(name + '=')) {
-      return cookie.substring(name.length + 1);
-    }
-  }
-  return null;
-}
-
-export default function OrderForm({ selectedItem, setSelectedItem }) {
+export default function OrderForm({ selectedItem, setSelectedItem, isEditing = false}) {
   const [quantity, setQuantity] = useState(1);
-  const [selectedExtrasPrice, setSelectedExtrasPrice] = useState(0);
+  const [unitPrice, setUnitPrice] = useState(selectedItem.price);
   const [selectedExtras, setSelectedExtras] = useState([]);
+  const [specialRequests, setSpecialRequests] = useState("");
   const { updateOrder } = useOrder();
+
+  useEffect(() => {
+    if (isEditing) {
+      async function fetchOrderItem() {
+        try {
+          const response = await api.get(`/api/get_order_item/${selectedItem.id}`);
+          const orderItem = response.data;
+          setQuantity(orderItem.quantity);
+          setSelectedExtras(orderItem.extras);
+          setSpecialRequests(orderItem.special_requests);
+          setUnitPrice(orderItem.total_price / orderItem.quantity);
+        } catch (error) {
+          console.error("Error fetching order item:", error);
+        }
+      }
+    }
+  }, [isEditing]);
 
   const handleFormClose = () => {
     setSelectedItem(null);
@@ -33,20 +39,18 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
     e.preventDefault();
 
     try {
-      const sessionId = getCookie('sessionid');
-      console.log('Session ID:', sessionId);
-
       const payload = {
         menu_item_id: selectedItem.id,
-        total_price: (selectedItem.price + selectedExtrasPrice) * quantity,
+        total_price: (unitPrice) * quantity,
         extras: selectedExtras,
         quantity: quantity,
+        special_requests: specialRequests,
       };
 
       const response = await api.post("/api/add_order_item", payload, { withCredentials: true });
 
       console.log("order added:", response.data);
-      
+
       updateOrder(); 
       setSelectedItem(null);
 
@@ -61,7 +65,7 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
       price: selectedItem.price,
       quantity,
       extras: selectedExtras,
-      total: (selectedItem.price + selectedExtrasPrice) * quantity,
+      total: (unitPrice) * quantity,
     });
     setSelectedItem(null); // Close the form after adding to order
   };
@@ -77,14 +81,16 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
         </button>
         <h3 className="text-lg font-bold mb-4">{selectedItem.name}</h3>
         <form>
-          <ExtraOptions itemCode={selectedItem.code} setSelectedExtrasPrice={setSelectedExtrasPrice} setSelectedExtras={setSelectedExtras} />
+          <ExtraOptions itemCode={selectedItem.code} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
           <div className="mb-4">
             <label className="block font-medium">
               Special Requests:
             </label>
             <textarea
               id="specialRequests"
-              name="specialRequests"
+              value={specialRequests}
+              onChange={(e) => setSpecialRequests(e.target.value)}
+              placeholder='e.g. "No onions"'
               className="w-full p-2 border rounded"
             ></textarea>
           </div>
@@ -96,7 +102,7 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
               className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
               onClick={handleAddToOrder}
             >
-              Add to Order  ${((selectedItem.price + selectedExtrasPrice) * quantity).toFixed(2)}
+              Add to Order  ${((unitPrice) * quantity).toFixed(2)}
             </button>
           </div>
         </form>

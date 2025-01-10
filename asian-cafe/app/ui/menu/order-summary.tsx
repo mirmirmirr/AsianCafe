@@ -45,7 +45,7 @@ export default function OrderSummary({ setTotalPrice }) {
               <div className='start-col-2'>
                 {item.menu_item_name}
 
-                {item.extras !== "[]" && <ExtrasDetail jsonString={item.extras} />}
+                {item.extras !== "[]" && <ExtrasDetail jsonString={item.extras} specialRequests={item.special_requests}/>}
               </div>
               <div className='text-[14px] items-end'>
                 ${item.total_price}
@@ -63,21 +63,25 @@ export default function OrderSummary({ setTotalPrice }) {
   );
 }
 
-function ExtrasDetail({ jsonString }) {
+function ExtrasDetail({ jsonString, specialRequests }) {
   const data = JSON.parse(jsonString);
 
   return (
     <div className='text-[14px] text-gray-600'>
-      {data.map((item, index) => (
+      {Object.keys(data).map((key, index) => (
         <div key={index}>
-          {/* <h3>{item.category}</h3> */}
           <ul>
-            {item.chosen_options.map((option, optionIndex) => (
+            {data[key].chosen_options.map((option, optionIndex) => (
               <li key={optionIndex}>{option}</li>
             ))}
           </ul>
         </div>
       ))}
+      {specialRequests && (
+        <div>
+          <strong>Special Requests:</strong> {specialRequests}
+        </div>
+      )}
     </div>
   );
 }
