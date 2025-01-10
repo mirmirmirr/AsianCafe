@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import api from '@/app/lib/axios';
+import { useOrder } from './OrderContext';
 
 export default function OrderSummary({ setTotalPrice }) {
   const [orderData, setOrderData] = useState(null);
+  const { orderUpdated, updateOrder } = useOrder();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -21,7 +23,17 @@ export default function OrderSummary({ setTotalPrice }) {
     };
 
     fetchOrder();
-  }, [setTotalPrice]);
+  }, [setTotalPrice, orderUpdated]);
+
+  const handleDelete = async (orderId) => {
+    try {
+      console.log("Deleting order item:", orderId);
+      await api.delete(`/api/delete_order_item/${orderId}/`);
+      updateOrder(); // Trigger the order update
+    } catch (error) {
+      console.error("Failed to delete order item:", error);
+    }
+  };
 
   return (
     <div className='max-h-[65vh] overflow-y-scroll'>
@@ -39,7 +51,7 @@ export default function OrderSummary({ setTotalPrice }) {
                 ${item.total_price}
               </div>
               <div className='start-col-4'>
-                x
+                <button onClick={() => handleDelete(item.id)}>X</button>
               </div>
             </li>
           ))}

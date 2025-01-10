@@ -2,6 +2,7 @@ import { geistSans } from '@/app/ui/fonts';
 import '@/app/ui/globals.css';
 import Header from './ui/header';
 import StatusBanner from './ui/status-banner';
+import { OrderProvider } from './ui/menu/OrderContext';
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,9 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.className} antialiased p-8`}>
-        <StatusBanner />
-        <Header />
-        {children}
+        <OrderProvider>
+          <StatusBanner />
+          <Header />
+          {children}
+        </OrderProvider>
       </body>
     </html>
   );

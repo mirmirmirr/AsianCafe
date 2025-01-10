@@ -2,6 +2,8 @@
 
 import api from '@/app/lib/axios';
 import { useState } from "react";
+import { useOrder } from './OrderContext';
+
 import ExtraOptions from "./extra-options";
 import QuantityCounter from "./counter";
 
@@ -21,6 +23,7 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedExtrasPrice, setSelectedExtrasPrice] = useState(0);
   const [selectedExtras, setSelectedExtras] = useState([]);
+  const { updateOrder } = useOrder();
 
   const handleFormClose = () => {
     setSelectedItem(null);
@@ -43,7 +46,8 @@ export default function OrderForm({ selectedItem, setSelectedItem }) {
       const response = await api.post("/api/add_order_item", payload, { withCredentials: true });
 
       console.log("order added:", response.data);
-
+      
+      updateOrder(); 
       setSelectedItem(null);
 
     } catch (error) {
