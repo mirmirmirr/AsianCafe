@@ -18,7 +18,7 @@ const StatusBanner = () => {
   }, []);
 
   return (
-    <div className={`fixed z-50 top-0 left-0 h-[40px] w-full p-2 grid grid-cols-[200px_1fr_200px] ${status === "CLOSED" ? "bg-red" : "bg-darkgreen"}`}>
+    <div className={`fixed z-50 top-0 left-0 h-[40px] w-full p-2 grid grid-cols-[200px_1fr_200px] ${status.includes("CLOSED") ? "bg-red" : "bg-darkgreen"}`}>
       <h1 className='text-white font-[500] text-center col-start-2'>{status}</h1>
       <p className='text-white font-[500] col-start-3 text-center'>(315) 637-7778</p>
     </div>
