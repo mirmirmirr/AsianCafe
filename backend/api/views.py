@@ -19,6 +19,7 @@ def get_menu(request):
       """
         SELECT 
           mi.menu_item_id AS id,
+          ms.menu_section_id AS section_id,
           ms.title AS section_title, 
           ms.description AS section_description,
           mss.title AS subsection_title,

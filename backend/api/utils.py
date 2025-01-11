@@ -3,14 +3,18 @@ from collections import defaultdict
 import json
 
 def clean_menu(items):
-  menu = defaultdict(lambda: {"description": "", "subsections": defaultdict(lambda: {"description": "", "items": []})} )
+  menu = defaultdict(lambda: {"id": -1, "description": "", "subsections": defaultdict(lambda: {"description": "", "items": []})} )
   
   for item in items:
     section = item['section_title']
     subsection = item["subsection_title"]
+    section_id = item["section_id"]
 
     if menu[section]["description"] == "":
       menu[section]["description"] = item["section_description"]
+    
+    if menu[section]["id"] == -1:
+      menu[section]["id"] = section_id
     
     if subsection:
       if menu[section]["subsections"][subsection]["description"] == "":
@@ -47,6 +51,7 @@ def format_menu(items):
   for section_title, section_data in menudict.items():
     section_entry = {
       "section" : section_title,
+      "id": section_data["id"],
       "desc" : section_data["description"],
       "subsections": []
     }
