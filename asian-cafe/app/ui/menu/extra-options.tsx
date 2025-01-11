@@ -215,7 +215,7 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
     <div className="relative inline-block text-left">
       <button
         onClick={toggleDropdown}
-        className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 w-[375px]"
+        className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 w-[65vw] max-w-[375px]"
       >
         { selectedOption.name } { selectedOption.price === 0 ? "" : `($${parseFloat(selectedOption.price).toFixed(2)})` }
       </button>

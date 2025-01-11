@@ -11,13 +11,15 @@ export function SectionMobile({ section }) {
 
   return (
     <div className='mt-4'>
-      <div className="flex flex-row justify-between">
-        <p className='text-[20px] font-[600]'>{section.section}</p>
+      <div className="flex flex-row justify-between" onClick={toggleDropdown} >
+        <p className='text-[20px] font-[400]'>{section.section}</p>
 
         <button 
-          onClick={toggleDropdown} 
-          className='bg-darkgreen text-white p-2 rounded'>
-          {isDropdownOpen ? 'Hide Menu' : 'Show Menu'}
+          className='text-white p-2 rounded'>
+          {isDropdownOpen ? 
+            <img src="/icons/open.svg" alt="selected option" width={20} height={20} />
+            : <img src="/icons/closed.svg" alt="selected option" width={20} height={20} />
+          }
         </button>
       </div>
 

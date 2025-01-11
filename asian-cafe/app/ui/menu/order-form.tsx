@@ -79,6 +79,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
             <label className="block font-medium">
               Special Requests:
             </label>
+            <p className='text-[14px] text-gray-600 mb-2'>If a price adjustment is needed, it will be charged to your order.</p>
             <textarea
               id="specialRequests"
               value={specialRequests}
@@ -87,7 +88,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
               className="w-full p-2 border rounded"
             ></textarea>
           </div>
-          <div className="flex justify-between gap-4">
+          <div className="flex md:flex-row flex-col justify-between gap-4">
             <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
 
             <button
