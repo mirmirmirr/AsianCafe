@@ -23,26 +23,11 @@ export default function Home() {
   ]
 
   return (
-    <div>
-      {/* <div
-        className="absolute inset-0 -z-10 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/background.png')",
-          height: "80vh",
-        }}
-      ></div> */}
-
-      {/* Top Content */}
-      {/* <div className="z-50 p-4">
-        <ACLogoHorizontal width={200} />
-        <div className="text-lg">511 E Genesee St, Fayetteville, NY 13066</div>
-      </div> */}
-
-    <div className="grid grid-rows-[230px_1fr_20px] justify-items-center min-h-screen gap-6">
+    <div className="grid grid-rows-[270px_1fr] md:grid-rows-[230px_1fr_20px] justify-items-center min-h-screen gap-6">
       <main className="flex flex-col relative gap-4 row-start-2 items-center justify-center overflow-hidden">
 
-        <div className="flex flex-row gap-8">
-          <div className="w-[40vw] flex flex-col text-center justify-center items-center mb-10" >
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-[90vw] md:w-[40vw] flex flex-col text-center justify-center items-center mb-10" >
             {description.map((para, index) => (
               <p key={index} className="text-[18px] mb-4">
                 {para}
@@ -56,12 +41,7 @@ export default function Home() {
           <EmblaCarousel />
         </div>
 
-        {/* <img 
-          src="/mian.png"
-          alt="main noodle page"
-        /> */}
-
-        <div className="grid grid-cols-[1fr_2fr_1fr] justify-items-center gap-4 text-center text-[18px] mt-10 mb-10">
+        <div className="flex flex-col md:grid md:grid-cols-[1fr_2fr_1fr] justify-items-center gap-4 text-center text-[18px] mt-10 mb-10">
           <div className="col-start-1">
             <h1 className="font-[600] mb-2">LOCATION</h1>
             <p>511 E Genesee St</p>
@@ -80,10 +60,6 @@ export default function Home() {
         </div>
 
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <p>&#169; 2025 Asian Cafe Asian Restaurant</p>
-      </footer>
-    </div>
     </div>
   );
 }

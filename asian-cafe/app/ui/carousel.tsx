@@ -16,7 +16,7 @@ export function EmblaCarousel() {
   ]
 
   return (
-    <div className="embla mx-auto w-[45vw]" ref={emblaRef} style={{ height: 'calc(100vh - 300px)' }}>
+    <div className="embla mx-auto w-[90vw] md:w-[45vw]" ref={emblaRef} style={{ height: 'calc(100vh - 300px)' }}>
       <div className="embla__container h-full">
         {images.map((image, index) => (
           <div key={index} className="embla__slide flex items-center justify-center">

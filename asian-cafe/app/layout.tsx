@@ -18,6 +18,9 @@ export default function RootLayout({ children }) {
           <Header />
           <div className='p-8'>
             {children}
+            <footer className="flex mt-2 h-[30px] gap-6 flex-wrap items-center justify-center">
+              <p>&#169; 2025 Asian Cafe Asian Restaurant</p>
+            </footer>
           </div>
         </OrderProvider>
       </body>

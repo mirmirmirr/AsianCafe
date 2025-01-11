@@ -13,7 +13,7 @@ export default async function Page() {
   const sections = data['menu'];
   
   return (
-    <div className="grid grid-rows-[240px_1fr_20px] min-h-screen gap-8">
+    <div className="grid grid-rows-[240px_1fr] min-h-screen gap-8">
       <main className="row-start-2 md:grid md:grid-cols-[1fr_350px] lg:grid-cols-[300px_1fr_350px] gap-x-8">
         <CategoryLinks sections={sections} />
         <div className='md:col-start-1 lg:col-start-2'>
@@ -33,9 +33,6 @@ export default async function Page() {
           </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <p>&#169; 2018 Asian Cafe Asian Restaurant</p>
-      </footer>
     </div>
   );
 }
