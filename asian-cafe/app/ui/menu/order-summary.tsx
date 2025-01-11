@@ -6,7 +6,7 @@ import api from '@/app/lib/axios';
 import { useOrder } from './OrderContext';
 import OrderForm from './order-form';
 
-export default function OrderSummary({ setTotalPrice }) {
+export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
   const [orderData, setOrderData] = useState(null);
   const { orderUpdated, updateOrder } = useOrder();
   const [editMode, setEditMode] = useState(false);
@@ -21,6 +21,10 @@ export default function OrderSummary({ setTotalPrice }) {
 
         const totalPrice = response.data["order"].reduce((sum, item) => sum + parseFloat(item.total_price || 0), 0);
         setTotalPrice(totalPrice);
+        
+        const orderQuantity = response.data["order"].reduce((sum, item) => sum + parseInt(item.quantity), 0);
+        setOrderQuantity(orderQuantity);
+        
       } catch (error) {
         console.error("Failed to fetch order:", error);
       }

@@ -1,16 +1,25 @@
-import { fetchSectionItems } from '@/app/lib/menu';
-import Link from 'next/link';
+'use client'
+
 import { Section, SectionMobile } from "../ui/menu/menu-items";
 import api from '@/app/lib/axios';
 import Order from '@/app/ui/menu/order';
-import OrderSummary from '../ui/menu/order-summary';
 import CategoryLinks from '../ui/menu/category-links';
+import { useEffect, useState } from 'react';
 
-export default async function Page() {
-  const response = await api.get('/api/menu');
-  const data = response.data;
+export default function Page() {
+  const [sections, setSections] = useState([]);
+  const [isOrderVisible, setIsOrderVisible] = useState(false);
+  const [orderQuantity, setOrderQuantity] = useState(0);
 
-  const sections = data['menu'];
+  useEffect(() => {
+    const fetchMenu = async () => {
+      const response = await api.get('/api/menu');
+      const data = response.data;
+      setSections(data['menu']);
+    };
+
+    fetchMenu();
+  });
   
   return (
     <div className="grid grid-rows-[240px_1fr] min-h-screen gap-8">
@@ -29,10 +38,34 @@ export default async function Page() {
         </div>
         <div className='hidden md:block border-l-2 border-black p-4 pr-0 col-start-2 lg:col-start-3'>
           <div className='sticky top-[140px]'>
-            <Order />
+            <Order setOrderQuantity={setOrderQuantity} />
           </div>
         </div>
       </main>
+
+      <button
+        onClick={() => setIsOrderVisible(!isOrderVisible)}
+        className='md:hidden fixed flex items-center gap-2 bottom-4 right-4 bg-darkgreen text-black p-4 rounded-full shadow-lg z-50'
+      >
+        <img src="/icons/shop-bag.svg" alt="selected option" width={30} height={30} />
+        {orderQuantity > 0 && <span>{orderQuantity}</span> }
+      </button>
+      <div
+        className={`fixed inset-0 bg-white z-50 transform ${
+          isOrderVisible ? 'translate-x-0' : 'translate-x-full'
+        } transition-transform duration-300 ease-in-out md:hidden`}
+      >
+        <div className="p-4">
+          <button
+            className="mb-4"
+            onClick={() => setIsOrderVisible(false)}
+          >
+            <img src="/icons/cross.svg" alt="selected option" width={30} height={30} />
+          </button>
+          <Order setOrderQuantity={setOrderQuantity} />
+        </div>
+      </div>
+
     </div>
   );
 }
