@@ -7,6 +7,14 @@ import { useOrder } from './OrderContext';
 import OrderForm from './order-form';
 
 export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
+  return (
+    <div className='max-h-[65vh] overflow-y-scroll'>
+      <OrderSummaryList setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
+    </div>
+  )
+};
+
+export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
   const [orderData, setOrderData] = useState(null);
   const { orderUpdated, updateOrder } = useOrder();
   const [editMode, setEditMode] = useState(false);
@@ -24,7 +32,7 @@ export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
         
         const orderQuantity = response.data["order"].reduce((sum, item) => sum + parseInt(item.quantity), 0);
         setOrderQuantity(orderQuantity);
-        
+
       } catch (error) {
         console.error("Failed to fetch order:", error);
       }
@@ -56,7 +64,7 @@ export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
   }
 
   return (
-    <div className='max-h-[65vh] overflow-y-scroll'>
+    <>
       {orderData ? (
         <ul>
           {orderData.map((item, index) => (
@@ -90,7 +98,7 @@ export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
         </div>,
         document.body
       )}
-    </div>
+    </>
   );
 }
 

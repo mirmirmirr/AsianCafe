@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 export default function Page() {
   const [sections, setSections] = useState([]);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
+  const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
   const [orderQuantity, setOrderQuantity] = useState(0);
 
   useEffect(() => {
