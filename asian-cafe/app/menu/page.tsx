@@ -5,20 +5,6 @@ import api from '@/app/lib/axios';
 import Order from '@/app/ui/menu/order';
 import OrderSummary from '../ui/menu/order-summary';
 
-// export async function getServerSideProps() {
-//   try {
-//     const response = await axios.get('/menu');
-//     const data = response.data;
-
-//     return {
-//       props: { data },
-//     };
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//     return { props: { data: null } };
-//   }
-// }
-
 export default async function Page() {
   const response = await api.get('/api/menu');
   const data = response.data;

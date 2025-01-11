@@ -15,21 +15,14 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
   const { updateOrder } = useOrder();
 
   useEffect(() => {
+    console.log("isEditing", isEditing);
     if (isEditing) {
-      async function fetchOrderItem() {
-        try {
-          const response = await api.get(`/api/get_order_item/${selectedItem.id}`);
-          const orderItem = response.data;
-          setQuantity(orderItem.quantity);
-          setSelectedExtras(orderItem.extras);
-          setSpecialRequests(orderItem.special_requests);
-          setUnitPrice(orderItem.total_price / orderItem.quantity);
-        } catch (error) {
-          console.error("Error fetching order item:", error);
-        }
-      }
+      setQuantity(selectedItem.quantity);
+      setSelectedExtras(JSON.parse(selectedItem.extras));
+      setSpecialRequests(selectedItem.special_requests || "");
+      setUnitPrice(selectedItem.total_price / selectedItem.quantity);
     }
-  }, [isEditing]);
+  }, [selectedItem]);
 
   const handleFormClose = () => {
     setSelectedItem(null);
@@ -47,7 +40,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
         special_requests: specialRequests,
       };
 
-      const response = await api.post("/api/add_order_item", payload, { withCredentials: true });
+      const response = isEditing ? await api.patch(`/api/edit_order_item/${selectedItem.order_item_id}/`, payload, { withCredentials: true }) : await api.post("/api/add_order_item", payload, { withCredentials: true });
 
       console.log("order added:", response.data);
 
@@ -81,7 +74,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
         </button>
         <h3 className="text-lg font-bold mb-4">{selectedItem.name}</h3>
         <form>
-          <ExtraOptions itemCode={selectedItem.code} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
+          <ExtraOptions itemCode={selectedItem.id} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
           <div className="mb-4">
             <label className="block font-medium">
               Special Requests:
@@ -102,7 +95,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
               className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
               onClick={handleAddToOrder}
             >
-              Add to Order  ${((unitPrice) * quantity).toFixed(2)}
+              {isEditing ? "Update Item" : "Add to Order"}  ${((unitPrice) * quantity).toFixed(2)}
             </button>
           </div>
         </form>

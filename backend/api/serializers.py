@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import Order, OrderItem
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    # code = serializers.IntegerField(source='menu_item_id')
+
     class Meta:
         model = OrderItem
         fields = ['id', 'menu_item_id', 'quantity', 'total_price', 'extras', 'order_id', 'special_requests']

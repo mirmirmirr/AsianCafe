@@ -1,12 +1,16 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import api from '@/app/lib/axios';
 import { useOrder } from './OrderContext';
+import OrderForm from './order-form';
 
 export default function OrderSummary({ setTotalPrice }) {
   const [orderData, setOrderData] = useState(null);
   const { orderUpdated, updateOrder } = useOrder();
+  const [editMode, setEditMode] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -23,7 +27,7 @@ export default function OrderSummary({ setTotalPrice }) {
     };
 
     fetchOrder();
-  }, [setTotalPrice, orderUpdated]);
+  }, [orderUpdated]);
 
   const handleDelete = async (orderId) => {
     try {
@@ -35,6 +39,18 @@ export default function OrderSummary({ setTotalPrice }) {
     }
   };
 
+  const handleEdit = async (item) => {
+    try {
+      const response = await api.get(`/api/get_order_item/${item}`);
+      setEditingItem(response.data);
+      console.log("Editing item:", response.data);
+    } catch (error) {
+      console.error("Failed to fetch order item:", error);
+    };
+
+    setEditMode(true);
+  }
+
   return (
     <div className='max-h-[65vh] overflow-y-scroll'>
       {orderData ? (
@@ -43,7 +59,9 @@ export default function OrderSummary({ setTotalPrice }) {
             <li key={index} className='grid grid-cols-[20px_1fr_55px_10px] gap-x-2 p-[4px]'>
               {item.quantity}
               <div className='start-col-2'>
-                {item.menu_item_name}
+                <div className='hover:underline' onClick={() => handleEdit(item.id)}>
+                  {item.menu_item_name}
+                </div>
 
                 {item.extras !== "[]" && <ExtrasDetail jsonString={item.extras} specialRequests={item.special_requests}/>}
               </div>
@@ -58,6 +76,13 @@ export default function OrderSummary({ setTotalPrice }) {
         </ul>
       ) : (
         <p>Loading...</p>
+      )}
+      {editMode && editingItem && ReactDOM.createPortal (
+        <div className='overlay'>
+
+        <OrderForm selectedItem={editingItem} setSelectedItem={setEditMode} isEditing={true} />
+        </div>,
+        document.body
       )}
     </div>
   );
