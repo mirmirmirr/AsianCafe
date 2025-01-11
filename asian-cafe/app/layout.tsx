@@ -12,11 +12,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.className} antialiased p-8`}>
+      <body className={`${geistSans.className} antialiased`}>
         <OrderProvider>
           <StatusBanner />
           <Header />
-          {children}
+          <div className='p-8'>
+            {children}
+          </div>
         </OrderProvider>
       </body>
     </html>

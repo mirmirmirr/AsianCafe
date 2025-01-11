@@ -18,9 +18,9 @@ const StatusBanner = () => {
   }, []);
 
   return (
-    <div className={`fixed z-50 top-0 left-0 h-[40px] w-full p-2 grid grid-cols-[200px_1fr_200px] ${status.includes("CLOSED") ? "bg-red" : "bg-darkgreen"}`}>
-      <h1 className='text-white font-[500] text-center col-start-2'>{status}</h1>
-      <p className='text-white font-[500] col-start-3 text-center'>(315) 637-7778</p>
+    <div className={`fixed z-50 top-0 left-0 h-[70px] md:h-[40px] w-full p-2 grid grid-row-[1fr_1fr] md:grid-cols-[20vw_1fr_20vw] ${status.includes("CLOSED") ? "bg-red" : "bg-darkgreen"}`}>
+      <h1 className='text-white font-[500] text-center md:col-start-2 row-start-1'>{status}</h1>
+      <p className='text-white font-[500] md:col-start-3 text-center row-start-2'>(315) 637-7778</p>
     </div>
   );
 };

@@ -32,28 +32,30 @@ export default function Header() {
   }, []);
 
   return (
-    <motion.div
-      className={`fixed top-[40px] left-0 w-[95vw] z-10 bg-lightgreen flex border-b-2 border-black m-8 mt-0 pt-4`}
-      initial={false}
-      animate={{
+    <div className='flex items-center justify-center'>
+      <motion.div
+        className={`fixed top-[70px] md:top-[40px] w-[95vw] z-10 bg-lightgreen flex border-b-2 border-black p-8 pt-4`}
+        initial={false}
+        animate={{
         flexDirection: isScrolled ? 'row' : 'column',
         justifyContent: isScrolled ? 'space-between' : 'center',
-        alignItems: isScrolled ? 'center' : 'center',
+        alignItems: 'center',
         height: isScrolled ? 70 : 230,
         padding: isScrolled ? '20px' : '16px',
-      }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className={`flex items-center ${isScrolled ? 'gap-4' : 'flex-col gap-2'}`}>
-        {isScrolled ? (<ACLogoVertical width={50}/>) : (<ACLogoHorizontal width={100}/>)}
-      </div>
-      <div
-        className={`${
-          isScrolled ? 'ml-auto' : 'mt-4'
-        } flex items-center justify-center transition-all`}
+        }}
+        transition={{ duration: 0.3 }}
       >
-        <NavLinks />
-      </div>
-    </motion.div>
+        <div className={`flex items-center ${isScrolled ? 'gap-4' : 'flex-col gap-2'}`}>
+          {isScrolled ? (<ACLogoVertical width={50}/>) : (<ACLogoHorizontal width={100}/>)}
+        </div>
+        <div
+          className={`${
+            isScrolled ? 'ml-auto' : 'mt-4'
+          } flex items-center justify-center transition-all`}
+        >
+          <NavLinks />
+        </div>
+      </motion.div>
+    </div>
   );
 }
