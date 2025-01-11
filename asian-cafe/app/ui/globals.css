@@ -44,3 +44,11 @@ body {
   align-items: center;
   z-index: 1000; /* Ensure it's on top of other elements */
 }
+
+.button-hover-red img {
+  transition: filter 0.3s ease;
+}
+
+.button-hover-red:hover img {
+  filter: invert(27%) sepia(94%) saturate(7471%) hue-rotate(357deg) brightness(102%) contrast(108%);
+}

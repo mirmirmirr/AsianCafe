@@ -56,7 +56,7 @@ export default function OrderSummary({ setTotalPrice }) {
       {orderData ? (
         <ul>
           {orderData.map((item, index) => (
-            <li key={index} className='grid grid-cols-[20px_1fr_55px_10px] gap-x-2 p-[4px]'>
+            <li key={index} className='grid grid-cols-[20px_1fr_55px_15px] gap-x-2 p-[4px]'>
               {item.quantity}
               <div className='start-col-2'>
                 <div className='hover:underline' onClick={() => handleEdit(item.id)}>
@@ -69,7 +69,9 @@ export default function OrderSummary({ setTotalPrice }) {
                 ${item.total_price}
               </div>
               <div className='start-col-4'>
-                <button onClick={() => handleDelete(item.id)}>X</button>
+                <button onClick={() => handleDelete(item.id)} className='button-hover-red'>
+                  <img src="/icons/delete.svg" alt="selected option" width={100} height={100} />
+                </button>
               </div>
             </li>
           ))}
