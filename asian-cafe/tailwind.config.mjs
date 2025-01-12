@@ -13,7 +13,7 @@ export default {
         yellow: '#f9f36e',
         red: '#ee1c27',
         lightgreen: '#E3ECB7',
-        darkgreen: '#C9D7A3'
+        darkgreen: '#7DA840'
       },
     },
   },
