@@ -3,6 +3,7 @@ from . import views
 from .views import AddOrderItemView, GetOrderView
 
 urlpatterns = [
+    path("ping", views.ping, name="ping"),
     path("menu", views.get_menu, name="menu"),
     path("extras/<str:itemID>/", views.get_extras, name="extras"),
     path("get_order", GetOrderView.as_view(), name="get_order"),

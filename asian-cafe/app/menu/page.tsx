@@ -20,7 +20,7 @@ export default function Page() {
     };
 
     fetchMenu();
-  });
+  }, []);
   
   return (
     <div className="grid grid-rows-[240px_1fr] min-h-screen gap-8">

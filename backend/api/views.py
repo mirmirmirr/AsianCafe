@@ -13,6 +13,9 @@ from . import utils
 from .models import Order, OrderItem
 from .serializers import OrderSerializer, OrderItemSerializer
 
+def ping(request):
+  return JsonResponse({"status": "ok"})
+
 def get_menu(request):
   with connection.cursor() as cursor:
     cursor.execute(
