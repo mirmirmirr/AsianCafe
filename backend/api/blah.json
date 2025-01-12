@@ -1,0 +1,56 @@
+[
+  {
+    "category_title": "Rice",
+    "addon_name": "White Rice",
+    "price": 0,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Rice",
+    "addon_name": "Fried Rice",
+    "price": 2,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Seasonal Vegetables",
+    "price": 3,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Tofu",
+    "price": 3,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Chicken",
+    "price": 4,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Jumbo Shrimp ($1/shrimp)",
+    "price": 1,
+    "get_quantity": true
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Beef",
+    "price": 4,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Pork Belly",
+    "price": 4,
+    "get_quantity": false
+  },
+  {
+    "category_title": "Extras",
+    "addon_name": "Braised Beef",
+    "price": 4,
+    "get_quantity": false
+  }
+]

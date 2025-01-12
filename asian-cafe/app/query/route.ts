@@ -4,9 +4,9 @@ const client = await db.connect();
 
 async function listInvoices() {
 	const data = await client.sql`
-    SELECT *
+    SELECT extras
     FROM menu
-    WHERE menu.section = 'Appetizers';
+    WHERE menu.section = 'Pad Thai';
   `;
 
 	return data.rows;
