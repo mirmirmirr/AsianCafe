@@ -5,10 +5,20 @@ import { useState, useEffect } from 'react';
 import { ACLogoHorizontal, ACLogoVertical } from "./ui/ac-logo";
 import NavLinks from "./ui/navlinks";
 import Image from "next/image";
-
+import api from '@/app/lib/axios';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    api.get('/ping')
+      .then(response => {
+        console.log('App is awake:', response);
+      })
+      .catch(error => {
+        console.error('Failed to wake up app:', error);
+      });
+  }, []);  
 
   const description = [
     'Our restaurant offers a wide array of authentic Asian Food, such as Ramen Noodle Soup, Stir-Fried Ramen Noodles, Beef Teriyaki, Hibachi Chicken, Thai Red Curry Chicken',
