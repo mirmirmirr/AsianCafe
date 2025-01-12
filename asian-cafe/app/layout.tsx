@@ -1,4 +1,5 @@
 import { geistSans } from '@/app/ui/fonts';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@/app/ui/globals.css';
 import Header from './ui/header';
 import StatusBanner from './ui/status-banner';
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
           <Header />
           <div className='p-8'>
             {children}
+            <SpeedInsights />
             <footer className="flex mt-2 h-[30px] gap-6 flex-wrap items-center justify-center">
               <p>&#169; 2025 Asian Cafe Asian Restaurant</p>
             </footer>
