@@ -45,6 +45,34 @@ body {
   z-index: 1000; /* Ensure it's on top of other elements */
 }
 
+/* .custom-time-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 16px;
+  color: #333;
+} */
+
+.custom-time-input::-webkit-calendar-picker-indicator {
+  /* background: url('/icons/clock.svg') no-repeat center; */
+  display: none;
+  background-size: 16px 16px;
+  cursor: pointer;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Edge */
+}
+.scrollbar-none {
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+
 .button-hover-red img {
   transition: filter 0.3s ease;
 }

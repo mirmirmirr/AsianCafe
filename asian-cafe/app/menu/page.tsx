@@ -5,6 +5,7 @@ import api from '@/app/lib/axios';
 import Order from '@/app/ui/menu/order';
 import CategoryLinks from '../ui/menu/category-links';
 import { useEffect, useState } from 'react';
+import OrderConfirm from "../ui/menu/order-confirm";
 
 export default function Page() {
   const [sections, setSections] = useState([]);
@@ -56,15 +57,10 @@ export default function Page() {
           isOrderVisible ? 'translate-x-0' : 'translate-x-full'
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
-        <div className="p-4">
-          <button
-            className="mb-4"
-            onClick={() => setIsOrderVisible(false)}
-          >
-            <img src="/icons/cross.svg" alt="selected option" width={30} height={30} />
-          </button>
-          <Order setOrderQuantity={setOrderQuantity} />
-        </div>
+        <OrderConfirm           
+          orderData={""}
+          onClose={() => setIsOrderVisible(false)}
+        />
       </div>
 
     </div>

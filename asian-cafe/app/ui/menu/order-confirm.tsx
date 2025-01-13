@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode, useEffect, use } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { OrderSummaryList } from './order-summary';
+import CustomTimePicker from './time-picker';
 
 
 export default function OrderConfirm({ orderData, onClose }) {
@@ -9,9 +10,20 @@ export default function OrderConfirm({ orderData, onClose }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [pickupOption, setPickupOption] = useState('ASAP');
+  const [timeError,  setTimeError] = useState({
+    message: '',
+    show: false,
+  });
+  const [nameError,  setNameError] = useState({
+    message: '',
+    show: false,
+  });
+  const [phoneError,  setPhoneError] = useState({
+    message: '',
+    show: false,
+  });
 
   const [totalPrice, setTotalPrice] = useState(0);
-  const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
   const [orderQuantity, setOrderQuantity] = useState(0);
 
   const openingHours = {
@@ -24,11 +36,18 @@ export default function OrderConfirm({ orderData, onClose }) {
     'Saturday': [{ start: '16:00', end: '20:00' }],
   };
 
-  const isWithinOpeningHours = (date) => {
-    const day = date.toLocaleDateString('en-US', { weekday: 'long' });
-    const time = date.toTimeString().substring(0, 5);
+  const isWithinOpeningHours = (selectedTime) => {
+    setPickupTime(selectedTime);
+
+    const day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const hours = openingHours[day];
-    return hours.some(({ start, end }) => time >= start && time <= end);
+
+    const avail = hours.some(({ start, end }) => selectedTime >= start && selectedTime <= end);
+    if (!avail) {
+      setTimeError({ message: 'Please choose a pickup time within opening hours', show: true });
+    } else {
+      setTimeError({ message: '', show: false });
+    }
   };
 
   useEffect(() => {
@@ -51,17 +70,29 @@ export default function OrderConfirm({ orderData, onClose }) {
   }, [pickupOption]);
 
   const handlePlaceOrder = () => {
-    console.log("Order placed:", {
-      pickupTime,
-      name,
-      phone,
-    });
 
-    onClose();
+    if (name !== '' && phone !== '') {
+      console.log("Order placed:", {
+        pickupTime,
+        name,
+        phone,
+      });
+  
+      onClose();
+    }
+
+    if (name === '') { 
+      setNameError({ message: 'Please enter a name for the order', show: true });
+    }
+
+    if (phone === '') {
+      setPhoneError({ message: 'Please enter a phone number for the order', show: true });
+    }
+
   };
 
   return (
-    <div className='fixed top-0 right-0 h-full w-[390px] bg-white'>
+    <div className='fixed top-0 right-0 h-full w-full md:w-[390px] bg-white'>
       <div className="relative w-full max-w-lg h-full overflow-y-auto bg-white p-8">
       <button
         className="mb-4"
@@ -78,55 +109,60 @@ export default function OrderConfirm({ orderData, onClose }) {
         </div> */}
         <form className="mb-4">
         <div className="mb-2">
-              <label className="block text-sm font-medium">Pick Up Time</label>
-              <div className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  id="asap"
-                  name="pickupOption"
-                  value="ASAP"
-                  checked={pickupOption === 'ASAP'}
-                  onChange={() => setPickupOption('ASAP')}
-                  className="mr-2"
-                />
-                <label htmlFor="asap" className="mr-4">ASAP</label>
-                <input
-                  type="radio"
-                  id="schedule"
-                  name="pickupOption"
-                  value="Schedule"
-                  checked={pickupOption === 'Schedule'}
-                  onChange={() => setPickupOption('Schedule')}
-                  className="mr-2"
-                />
-                <label htmlFor="schedule">Schedule Time</label>
-              </div>
-              {pickupOption === 'Schedule' && (
-                <input
-                  type="time"
-                  value={pickupTime}
-                  onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full border border-gray-300 p-2 rounded"
-                />
-              )}
+          <label className="block text-sm font-medium">Pick Up Time</label>
+          <div className="flex items-center mb-2">
+            <input
+              type="radio"
+              id="asap"
+              name="pickupOption"
+              value="ASAP"
+              checked={pickupOption === 'ASAP'}
+              onChange={() => { setPickupOption('ASAP'); setPickupTime('ASAP'); }}
+              className="mr-2"
+            />
+            <label htmlFor="asap" className="mr-4">ASAP</label>
+            <input
+              type="radio"
+              id="schedule"
+              name="pickupOption"
+              value="Schedule"
+              checked={pickupOption === 'Schedule'}
+              onChange={() => setPickupOption('Schedule')}
+              className="mr-2"
+            /> 
+            <label htmlFor="schedule">Schedule Time</label>
+          </div>
+          {pickupOption === 'Schedule' && (
+            <div>
+              <input
+                type="time"
+                value={pickupTime}
+                onChange={(e) => isWithinOpeningHours(e.target.value)}
+                className={`custom-time-input w-full border border-gray-300 p-2 rounded ${timeError.show ? "bg-pink border-red focus:border-red" : ''}`}
+              />
+              {timeError.show && <p className="text-red text-sm">{timeError.message}</p>}
             </div>
+          )}
+        </div>
           <div className="mb-2">
             <label className="block text-sm font-medium">Name</label>
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
+              onChange={(e) => {setName(e.target.value); setNameError({ message: '', show: false });}}
+              className={`w-full border border-gray-300 p-2 rounded ${nameError.show ? "bg-pink border-red focus:border-red" : ''}`}
             />
+            {nameError.show && <p className="text-red text-sm">{nameError.message}</p>}
           </div>
           <div className="mb-2">
             <label className="block text-sm font-medium">Phone Number</label>
             <input
               type="tel"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
+              onChange={(e) => {setPhone(e.target.value); setPhoneError({ message: '', show: false });}}
+              className={`w-full border border-gray-300 p-2 rounded ${phoneError.show ? "bg-pink border-red focus:border-red" : ''}`}
             />
+            {phoneError.show && <p className="text-red text-sm">{phoneError.message}</p>}
           </div>
         </form>
         <OrderSummaryList setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
