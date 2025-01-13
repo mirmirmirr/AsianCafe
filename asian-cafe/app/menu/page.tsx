@@ -10,8 +10,15 @@ import OrderConfirm from "../ui/menu/order-confirm";
 export default function Page() {
   const [sections, setSections] = useState([]);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
-  const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
   const [orderQuantity, setOrderQuantity] = useState(0);
+
+  useEffect(() => {
+    if (isOrderVisible) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isOrderVisible]);
 
   useEffect(() => {
     const fetchMenu = async () => {
