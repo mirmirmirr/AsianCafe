@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-6*v#*4-i6k3wppyt37o!q3g(85o-%u)@n)&%a)e7h-f&5b*#z#"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["asiancafefayetteville.onrender.com", "localhost"]
 
@@ -54,13 +54,13 @@ CORS_ALLOW_HEADERS = [
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-SESSION_COOKIE_DOMAIN = 'localhost'
-SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = False
+# SESSION_COOKIE_DOMAIN = 'localhost'
+# SESSION_COOKIE_SAMESITE = 'Lax'
+# SESSION_COOKIE_SECURE = False
 
-# SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
-# SESSION_COOKIE_SAMESITE = 'None'
-# SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
 
 # Application definition
 
