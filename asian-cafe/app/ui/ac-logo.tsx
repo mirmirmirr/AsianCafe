@@ -7,7 +7,6 @@ export function ACLogoHorizontal({ width }) {
       className={`flex flex-col items-center leading-non w-[400px]`}
     >
       <img
-        className="dark:invert"
         src="/AsianCafeLogo.png"
         alt="Asian Cafe Logo"
         width={width}
@@ -25,7 +24,6 @@ export function ACLogoVertical({ width }) {
       className={`flex flex-row items-center leading-none`}
     >
       <img
-        className="dark:invert"
         src="/AsianCafeLogo.png"
         alt="Asian Cafe Logo"
         width={width}
