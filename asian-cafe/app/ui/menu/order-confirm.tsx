@@ -96,7 +96,7 @@ export default function OrderConfirm({ orderData, onClose }) {
       <div className="relative w-full max-w-lg h-full overflow-y-auto bg-white p-8">
       <button
         className="mb-4"
-        onClick={() => onClose()}
+        onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}
       >
         <img src="/icons/cross.svg" alt="selected option" width={30} height={30} />
       </button>
