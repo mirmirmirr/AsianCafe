@@ -1,12 +1,8 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.db import connection
-from django.contrib.sessions.models import Session
-from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.exceptions import NotFound
-from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 
 from . import utils
@@ -122,57 +118,14 @@ class AddOrderItemView(APIView):
     else:
       return JsonResponse({"This is only for adding an item to the current order."}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])
-def delete_order_item(request, order_item_id):
-  try:
-      order_item = OrderItem.objects.get(id=order_item_id)
-      order_item.delete()
-      return JsonResponse({"message": "Order item deleted successfully!"}, status=status.HTTP_200_OK)
-  except OrderItem.DoesNotExist:
-      raise NotFound("Order item does not exist.")
-
-@api_view(['GET'])
-def get_order_item(request, order_item_id):
-  try:
-      print(order_item_id)
-      # order = OrderItem.objects.get(id=order_item_id)
-      # print(order.menu_item_id)
-      
-      with connection.cursor() as cursor:
-        cursor.execute ("""
-        SELECT
-          oi.id as order_item_id,
-          oi.order_id,
-          mi.menu_item_id as id,
-          mi.menu_item_name as name,
-          oi.total_price,
-          oi.special_requests,
-          oi.extras,
-          oi.quantity
-        FROM api_orderitem oi
-          LEFT JOIN menu_item mi USING (menu_item_id)
-        WHERE oi.id = %s;
-        """, [order_item_id])
-        rows = cursor.fetchall()
-        column_names = [desc[0] for desc in cursor.description]
-
-      items = [dict(zip(column_names, row)) for row in rows]
-      return JsonResponse(items[0])
-  except OrderItem.DoesNotExist:
-      raise NotFound("Order item does not exist.")
-  
-@api_view(['PATCH'])
-def edit_order_item(request, order_item_id):
-  try:
-      order_item = OrderItem.objects.get(id=order_item_id)
-      data = JSONParser().parse(request)
-      serializer = OrderItemSerializer(order_item, data=data, partial=True)
-      if serializer.is_valid():
-          serializer.save()
-          return JsonResponse(serializer.data)
-      return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-  except OrderItem.DoesNotExist:
-      raise NotFound("Order item does not exist.")
+@api_view(['GET', 'DELETE', 'PATCH'])
+def order_item(request, order_item_id):
+  if request.method == 'GET':
+    return utils.get_order_item(request, order_item_id)
+  elif request.method == 'DELETE':
+    return utils.delete_order_item(request, order_item_id)
+  elif request.method == 'PATCH':
+    return utils.edit_order_item(request, order_item_id)
 
 class CheckoutView(APIView):
     def post(self, request):

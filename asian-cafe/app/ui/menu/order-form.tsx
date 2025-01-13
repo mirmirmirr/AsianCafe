@@ -40,7 +40,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
         special_requests: specialRequests,
       };
 
-      const response = isEditing ? await api.patch(`/api/edit_order_item/${selectedItem.order_item_id}/`, payload, { withCredentials: true }) : await api.post("/api/add_order_item", payload, { withCredentials: true });
+      const response = isEditing ? await api.patch(`/api/order_item/${selectedItem.order_item_id}/`, payload, { withCredentials: true }) : await api.post("/api/add_order_item", payload, { withCredentials: true });
 
       console.log("order added:", response.data);
 
