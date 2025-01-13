@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db import connection
-from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.decorators import api_view
 
@@ -12,6 +11,7 @@ from .serializers import OrderSerializer, OrderItemSerializer
 def ping(request):
   return JsonResponse({"status": "ok"})
 
+@api_view(['GET'])
 def get_menu(request):
   with connection.cursor() as cursor:
     cursor.execute(
@@ -41,6 +41,7 @@ def get_menu(request):
 
   return JsonResponse({"menu": utils.format_menu(items)})
 
+@api_view(['GET'])
 def get_extras(request, itemID):
   with connection.cursor() as cursor:
     cursor.execute ("""
@@ -64,59 +65,59 @@ def get_extras(request, itemID):
   items = [dict(zip(column_names, row)) for row in rows]
   return JsonResponse({"extras" : utils.format_extras(items)})
 
-class AddOrderItemView(APIView):
-  def post(self, request):
-    if request.method == 'POST':
-      try:
-        print(request.COOKIES)
-        print(request.headers)
+@api_view(['POST'])
+def add_order_item(request):
+  if request.method == 'POST':
+    try:
+      print(request.COOKIES)
+      print(request.headers)
 
-        print(f"Session Key: {request.session.session_key}")
-        print(f"Session Data: {request.session.items()}") 
+      print(f"Session Key: {request.session.session_key}")
+      print(f"Session Data: {request.session.items()}") 
 
-        user = request.user if request.user.is_authenticated else None
+      user = request.user if request.user.is_authenticated else None
 
-        session = request.session
-        order_id = session.get('order_id')
+      session = request.session
+      order_id = session.get('order_id')
 
-        # checking if there is an active session order
-        if order_id:
-          print(order_id)
-          order = Order.objects.filter(id=order_id, is_active=True).first()
-          if not order:
-            print("2")
-            order = Order.objects.create(user=user)
-            session["order_id"] = order.id
-            session.save()
-        else:
-          print("3 new session..")
+      # checking if there is an active session order
+      if order_id:
+        print(order_id)
+        order = Order.objects.filter(id=order_id, is_active=True).first()
+        if not order:
+          print("2")
           order = Order.objects.create(user=user)
           session["order_id"] = order.id
           session.save()
-          print(f"Session Key: {request.session.session_key}")
-          print(f"Session Data: {request.session.items()}") 
-
-        
-        # add the new order item
-        data = request.data
-        print(data)
-        order_item = OrderItem.objects.create(
-          order=order,
-          menu_item_id=data['menu_item_id'],
-          total_price=data['total_price'],
-          extras=data.get('extras', {}),
-          quantity=data['quantity'],
-          special_requests=data.get('special_requests', None)
-        )
-
+      else:
+        print("3 new session..")
+        order = Order.objects.create(user=user)
+        session["order_id"] = order.id
+        session.save()
         print(f"Session Key: {request.session.session_key}")
         print(f"Session Data: {request.session.items()}") 
 
-        return JsonResponse({"message": "Order item added successfully!", "order_id": order.id}, status=status.HTTP_201_CREATED)
-      except Exception as e:
-        return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    else:
-      return JsonResponse({"This is only for adding an item to the current order."}, status=status.HTTP_400_BAD_REQUEST)
+      
+      # add the new order item
+      data = request.data
+      print(data)
+      order_item = OrderItem.objects.create(
+        order=order,
+        menu_item_id=data['menu_item_id'],
+        total_price=data['total_price'],
+        extras=data.get('extras', {}),
+        quantity=data['quantity'],
+        special_requests=data.get('special_requests', None)
+      )
+
+      print(f"Session Key: {request.session.session_key}")
+      print(f"Session Data: {request.session.items()}") 
+
+      return JsonResponse({"message": "Order item added successfully!", "order_id": order.id}, status=status.HTTP_201_CREATED)
+    except Exception as e:
+      return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+  else:
+    return JsonResponse({"This is only for adding an item to the current order."}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'DELETE', 'PATCH'])
 def order_item(request, order_item_id):
@@ -127,73 +128,73 @@ def order_item(request, order_item_id):
   elif request.method == 'PATCH':
     return utils.edit_order_item(request, order_item_id)
 
-class CheckoutView(APIView):
-    def post(self, request):
-        session = request.session
-        order_id = session.pop("order_id", None)
+@api_view(['POST'])
+def checkout(request):
+    session = request.session
+    order_id = session.pop("order_id", None)
 
-        if order_id:
-            order = Order.objects.get(id=order_id)
-            order.is_active = False
-            order.save()
+    if order_id:
+        order = Order.objects.get(id=order_id)
+        order.is_active = False
+        order.save()
 
-        return JsonResponse({"message": "Checkout successful!"}, status=status.HTTP_200_OK)
+    return JsonResponse({"message": "Checkout successful!"}, status=status.HTTP_200_OK)
 
-class GetOrderView(APIView):
-  def get(self, request):
-    try:
-      print(f"Session Key: {request.session.session_key}")
-      print(f"Session Data: {request.session.items()}") 
-      
-      print("trying")
-      session = request.session
-      order_id = session.get('order_id')
-      
-      print("trying 2 ", order_id)
-      # order = Order.objects.get(id=order_id)
-      # serializer = OrderSerializer(order)
+@api_view(['GET'])
+def get_order(request):
+  try:
+    print(f"Session Key: {request.session.session_key}")
+    print(f"Session Data: {request.session.items()}") 
+    
+    print("trying")
+    session = request.session
+    order_id = session.get('order_id')
+    
+    print("trying 2 ", order_id)
+    # order = Order.objects.get(id=order_id)
+    # serializer = OrderSerializer(order)
 
-      # if order_id: 
-      #   print("order_id: ", order_id)
+    # if order_id: 
+    #   print("order_id: ", order_id)
 
-      with connection.cursor() as cursor:
-        cursor.execute ("""
-          WITH orderitems AS (
-            SELECT 
-              oi.id,
-              o.id as order_id,
-              oi.quantity,
-              oi.menu_item_id,
-              oi.total_price,
-              oi.extras,
-              oi.special_requests
-            FROM api_order as o
-              LEFT JOIN api_orderitem as oi ON o.id = oi.order_id
-            WHERE o.id = %s
-          )
-          SELECT
+    with connection.cursor() as cursor:
+      cursor.execute ("""
+        WITH orderitems AS (
+          SELECT 
             oi.id,
-            oi.order_id,
+            o.id as order_id,
+            oi.quantity,
+            oi.menu_item_id,
             oi.total_price,
             oi.extras,
-            oi.quantity,
-            oi.special_requests,
-            mi.menu_item_name,
-            mic.menu_item_code
-          FROM orderitems as oi
-            LEFT JOIN menu_item as mi USING (menu_item_id)
-            LEFT JOIN menu_item_code as mic USING (menu_item_id)
-          ORDER BY oi.id ASC;
-          """, [order_id])
-        rows = cursor.fetchall()
-        column_names = [desc[0] for desc in cursor.description]
-      items = [dict(zip(column_names, row)) for row in rows]
-      print("got rows")
-      return JsonResponse({"order" : items})
-      # else:
-      #   print("no order")
-      #   return JsonResponse({"no order yet"})
-      
-    except Exception as e:
-      print("Error:", str(e))
-      return JsonResponse({"error": f"Failed to fetch order: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+            oi.special_requests
+          FROM api_order as o
+            LEFT JOIN api_orderitem as oi ON o.id = oi.order_id
+          WHERE o.id = %s
+        )
+        SELECT
+          oi.id,
+          oi.order_id,
+          oi.total_price,
+          oi.extras,
+          oi.quantity,
+          oi.special_requests,
+          mi.menu_item_name,
+          mic.menu_item_code
+        FROM orderitems as oi
+          LEFT JOIN menu_item as mi USING (menu_item_id)
+          LEFT JOIN menu_item_code as mic USING (menu_item_id)
+        ORDER BY oi.id ASC;
+        """, [order_id])
+      rows = cursor.fetchall()
+      column_names = [desc[0] for desc in cursor.description]
+    items = [dict(zip(column_names, row)) for row in rows]
+    print("got rows")
+    return JsonResponse({"order" : items})
+    # else:
+    #   print("no order")
+    #   return JsonResponse({"no order yet"})
+    
+  except Exception as e:
+    print("Error:", str(e))
+    return JsonResponse({"error": f"Failed to fetch order: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
