@@ -51,15 +51,6 @@ export default function OrderConfirm({ orderData, onClose }) {
   };
 
   useEffect(() => {
-    // Prevent body scrolling when OrderConfirm is visible
-    document.body.style.overflow = 'hidden';
-    return () => {
-      // Re-enable body scrolling when OrderConfirm is closed
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-
-  useEffect(() => {
     if (pickupOption === 'Schedule') {
       const currentTime = new Date();
       currentTime.setMinutes(currentTime.getMinutes() + 20);

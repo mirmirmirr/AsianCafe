@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 
@@ -20,9 +21,12 @@ export function EmblaCarousel() {
       <div className="embla__container h-full">
         {images.map((image, index) => (
           <div key={index} className="embla__slide flex items-center justify-center">
-            <img
+            <Image
               src={image.src}
               alt={image.alt}
+              width={600}
+              height={600}
+              priority={true}
               className="w-full h-full object-cover rounded-lg"
             />
           </div>

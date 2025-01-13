@@ -2,12 +2,19 @@
 import OrderSummary from '@/app/ui/menu/order-summary';
 import OrderConfirm from '@/app/ui/menu/order-confirm';
 import ReactDOM from 'react-dom';
-import { useState } from 'react';
-import { setMaxListeners } from 'events';
+import { useState, useEffect } from 'react';
 
 export default function Order({ setOrderQuantity }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isConfirmingOrder, setIsConfirmingOrder] = useState(false);
+
+  useEffect(() => {
+    if (isConfirmingOrder) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isConfirmingOrder]);
 
   return (
     <>

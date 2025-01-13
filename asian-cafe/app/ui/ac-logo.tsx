@@ -6,12 +6,12 @@ export function ACLogoHorizontal({ width }) {
     <div
       className={`flex flex-col items-center leading-non w-[400px]`}
     >
-      <img
+      <Image
         src="/AsianCafeLogo.png"
         alt="Asian Cafe Logo"
         width={width}
         height={0}
-        style={{ height: 'auto' }}
+        // style={{ height: 'auto' }}
       />
       <p className={`text-[40px] text-red font-[700]`}>Asian Cafe</p>
     </div>
@@ -23,12 +23,12 @@ export function ACLogoVertical({ width }) {
     <div
       className={`flex flex-row items-center leading-none`}
     >
-      <img
+      <Image
         src="/AsianCafeLogo.png"
         alt="Asian Cafe Logo"
         width={width}
         height={0}
-        style={{ height: 'auto' }}
+        // style={{ height: 'auto' }}
       />
     </div>
   );
