@@ -80,3 +80,7 @@ body {
 .button-hover-red:hover img {
   filter: invert(27%) sepia(94%) saturate(7471%) hue-rotate(357deg) brightness(102%) contrast(108%);
 }
+
+.button-green img {
+  filter: invert(27%) sepia(94%) saturate(7471%) hue-rotate(357deg) brightness(102%) contrast(108%);
+}

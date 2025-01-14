@@ -10,6 +10,7 @@ export const getStatus = () => {
   
   // Check lunch and dinner hours
   if (day >= 2 && day <= 5) { // Tuesday - Friday
+    if (hours < 11) return "CLOSED, open for lunch 11am"; // Closed before lunch
     if (hours >= 11 && hours < 14) return "OPEN NOW - Lunch, 11am-2pm "; // Lunch hours
     if (hours >= 14 && hours < 16) return "CLOSED, open for dinner 4pm"; // Closed between lunch and dinner
     if (hours >= 16 && hours < 20) return "OPEN NOW - Dinner, 4pm-8pm"; // Dinner hours
