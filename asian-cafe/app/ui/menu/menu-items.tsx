@@ -42,8 +42,8 @@ export function SectionMobile({ section }) {
 export function Section({ section }) {
   return (
     <div className='mt-4'>
-      <h2 className='text-[20px] font-[600]'>{section.section}</h2>
-      {section.desc && (<p className="mb-2 italic">{ section.desc }</p>)}
+      <h2 className='text-[30px] font-[600] font-euphoria border-b-4 border-darkgreen'>{section.section}</h2>
+      {section.desc && (<p className="mt-2 mb-2 italic">{ section.desc }</p>)}
 
       { section.subsections.length > 0 ? (
         section.subsections.map((subsection, index) => (
