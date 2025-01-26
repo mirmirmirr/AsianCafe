@@ -12,7 +12,7 @@ export function SectionMobile({ section }) {
   return (
     <div className='mt-4'>
       <div className="flex flex-row justify-between" onClick={toggleDropdown} >
-        <p className='text-[20px] font-[400]'>{section.section}</p>
+        <p className='text-[30px] font-[600] font-euphoria border-b-4 border-darkgreen'>{section.section}</p>
 
         <button 
           className='text-white p-2 rounded'>

@@ -18,7 +18,8 @@ export default function Order({ setOrderQuantity }) {
 
   return (
     <>
-      <h1 className='text-[20px] font-[600]'>My Order</h1>
+      <p className='mb-2'>*Click on item to edit</p>
+      <h1 className='text-[30px] font-[600] font-euphoria'>My Order</h1>
       <OrderSummary setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
       <div className='flex justify-center mt-4'>
         <button onClick={() => setIsConfirmingOrder(true)} className='bg-darkgreen rounded-[20px] w-[330px] p-2 font-bold'>

@@ -34,7 +34,12 @@ export default function Page() {
     <div className="grid grid-rows-[240px_1fr] min-h-screen gap-8">
       <main className="row-start-2 md:grid md:grid-cols-[1fr_350px] lg:grid-cols-[300px_1fr_350px] gap-x-8">
         <CategoryLinks sections={sections} />
-        <div className='md:col-start-1 lg:col-start-2'>
+        <div className='md:col-start-1 lg:col-start-2 mt-2'>
+          <div className="flex flex-row gap-2">
+            <img src="/chili.svg" alt="spicy dish" width={20} height={20} />
+            <p>Spicy Dish</p>
+          </div>
+          <p>Prices may change without notice</p>
           {sections.map((category, index) => (
             <div
               key={index}

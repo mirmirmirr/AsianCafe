@@ -18,8 +18,8 @@ const CategoryLinks = ({ sections }) => {
   };
 
   return (
-    <div className='hidden lg:block border-2 border-black p-4 h-[350px] col-start-1 sticky top-[140px]'>
-      <h1 className='text-[20px] font-[600]'>Categories</h1>
+    <div className='hidden lg:block border-2 border-black p-4 h-[370px] col-start-1 sticky top-[140px]'>
+      <h1 className='text-[30px] font-[600] font-euphoria'>Categories</h1>
       <ol>
         {sections.map((category, index) => (
           <li key={index}>
