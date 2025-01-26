@@ -57,13 +57,18 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
 
   useEffect(() => {
     console.log("running selected regular for ", categoryName);
-    // console.log(selectedExtras);
+    console.log(selectedExtras);
     if (selectedExtras.length > 0) {
       selectedExtras.forEach((extra) => {
-        setCheckedOptions((prev) => ({
-          ...prev,
-          [extra]: true,
-        }));
+      setCheckedOptions((prev) => ({
+        ...prev,
+        [extra.name]: true,
+      }));
+
+      setQuantities((prev) => ({
+        ...prev,
+        [extra.name]: extra.quantity,
+      }));
       });
     }
   }, [selectedExtras, categoryName]);
@@ -89,18 +94,19 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
       if (isChecked) {
         if (!category) {
           // console.log("adding new category");
-          updatedExtras[categoryName] = { category: categoryName, chosen_options: [addonName] };
+          updatedExtras[categoryName] = { category: categoryName, chosen_options: [{name: addonName, quantity: quantities[addonName]}] };
         } else {
-          if (!category.chosen_options.includes(addonName)) {
+          const optionExists = category.chosen_options.some(option => option.name === addonName);
+          if (!optionExists) {
             // console.log("adding new option");
-            category.chosen_options.push(addonName);
+            category.chosen_options.push({name: addonName, quantity: quantities[addonName]});
           }
         }
       } else {
         if (category) {
-          category.chosen_options = category.chosen_options.filter((opt) => opt !== addonName);
+          category.chosen_options = category.chosen_options.filter((option) => option.name !== addonName);
           if (category.chosen_options.length === 0) {
-          delete updatedExtras[categoryName];
+            delete updatedExtras[categoryName];
           }
         }
       }
@@ -124,6 +130,18 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
       ...prev,
       [option.name]: newQuantity,
     }));
+
+    setSelectedExtras((prev) => {
+      const updatedExtras = { ...prev };
+      const category = updatedExtras[categoryName];
+
+      const optionIndex = category.chosen_options.findIndex(opt => opt.name === option.name);
+      if (optionIndex !== -1) {
+        category.chosen_options[optionIndex].quantity = newQuantity;
+      }
+
+      return updatedExtras;
+    });
 
     if (checkedOptions[option.name]) {
       setSelectedExtrasPrice((prev) => prev + priceDifference);
