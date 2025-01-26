@@ -44,21 +44,38 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col md:grid md:grid-cols-[1fr_2fr_1fr] justify-items-center gap-4 text-center text-[18px] mt-10 mb-8">
-          <div className="col-start-1">
+            <div className="col-start-1">
             <h1 className="font-[600] mb-2">LOCATION</h1>
-            <p>511 E Genesee St</p>
-            <p>Fayetteville, NY 13066</p>
-          </div>
+            <Link className="hover:underline" href="https://www.google.com/maps/search/?api=1&query=511+E+Genesee+St,+Fayetteville,+NY+13066" target="_blank" rel="noopener noreferrer">
+              <p>511 E Genesee St</p>
+              <p>Fayetteville, NY 13066</p>
+            </Link>
+            </div>
           <div className="col-start-2">
             <h1 className="font-[600] mb-2">HOURS</h1>
-            {hours.map((detail, index) => (
-              <p key={index} className="mb-2">{detail}</p>
-            ))}
+            <div>
+              <div className="grid grid-cols-[1fr_1fr]">
+                <div className="text-left">
+                  <p>Sunday to Monday</p>
+                  <p>Tuesday to Friday</p>
+                  <p className="text-lightgreen">nnn</p>
+                  <p>Saturday</p>
+                </div>
+                <div className="text-right">
+                  <p>CLOSED</p>
+                  <p>11am - 2pm</p>
+                  <p>4pm - 8pm</p>
+                  <p>4pm - 8pm</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="col-start-3">
+            <div className="col-start-3">
             <h1 className="font-[600] mb-2">CONTACT</h1>
-            <p>(315) 637-7778</p>
-          </div>
+            <Link href="tel:+13156377778" className="hover:underline">
+              <p>(315) 637-7778</p>
+            </Link>
+            </div>
         </div>
 
         <Map />
