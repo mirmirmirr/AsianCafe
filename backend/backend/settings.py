@@ -41,7 +41,8 @@ DEBUG = False
 ALLOWED_HOSTS = ["asiancafefayetteville.onrender.com", "localhost"]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = ["https://asiancafefayetteville.onrender.com", "https://asiancafefayetteville.vercel.app"]
 CORS_ALLOW_HEADERS = [
     "Content-Type",
     "Authorization",
@@ -58,8 +59,12 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_COOKIE_SAMESITE = 'Lax'
 # SESSION_COOKIE_SECURE = False
 
+CSRF_TRUSTED_ORIGINS = ["https://asiancafefayetteville.onrender.com", "https://asiancafefayetteville.vercel.app"]
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = True
+
 SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
-SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = True
 
 # Application definition
