@@ -60,11 +60,11 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_COOKIE_SECURE = False
 
 CSRF_TRUSTED_ORIGINS = ["https://asiancafefayetteville.onrender.com", "https://asiancafefayetteville.vercel.app"]
-CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
 
 # Application definition
