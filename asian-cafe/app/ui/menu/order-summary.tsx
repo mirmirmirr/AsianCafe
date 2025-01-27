@@ -111,7 +111,7 @@ function ExtrasDetail({ jsonString, specialRequests }) {
         <div key={index}>
           <ul>
             {data[key].chosen_options.map((option, optionIndex) => (
-              <li key={optionIndex}>{option}</li>
+              <li key={optionIndex}>{option.name} {option.quantity > 1 && ( `(${option.quantity})` )} </li>
             ))}
           </ul>
         </div>

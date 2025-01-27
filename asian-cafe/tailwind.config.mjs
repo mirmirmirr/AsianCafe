@@ -14,7 +14,11 @@ export default {
         red: '#ee1c27',
         pink: '#f2d4d7',
         lightgreen: '#E3ECB7',
-        darkgreen: '#7DA840'
+        darkgreen: '#7DA840',
+        gold: '#efbf04',
+      },
+      fontFamily: {
+        euphoria: ["var(--font-euphoria)", "sans-serif"],
       },
     },
   },
