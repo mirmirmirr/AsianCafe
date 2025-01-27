@@ -38,11 +38,19 @@ SECRET_KEY = "django-insecure-6*v#*4-i6k3wppyt37o!q3g(85o-%u)@n)&%a)e7h-f&5b*#z#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["asiancafefayetteville.onrender.com", "localhost"]
+ALLOWED_HOSTS = [
+    "asiancafefayetteville.onrender.com", 
+    "localhost",
+    "asiancafefayetteville.vercel.app"
+]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = ["https://asiancafefayetteville.onrender.com", "https://asiancafefayetteville.vercel.app"]
+CORS_ALLOWED_ORIGINS = [
+    "https://asiancafefayetteville.onrender.com",
+    "https://asiancafefayetteville.vercel.app"
+]
+
 CORS_ALLOW_HEADERS = [
     "Content-Type",
     "Authorization",
@@ -54,17 +62,30 @@ CORS_ALLOW_HEADERS = [
     "X-CSRFTOKEN",
 ]
 
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # SESSION_COOKIE_DOMAIN = 'localhost'
 # SESSION_COOKIE_SAMESITE = 'Lax'
 # SESSION_COOKIE_SECURE = False
 
-CSRF_TRUSTED_ORIGINS = ["https://asiancafefayetteville.onrender.com", "https://asiancafefayetteville.vercel.app"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://asiancafefayetteville.onrender.com",
+    "https://asiancafefayetteville.vercel.app"
+]
 CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 
-SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
+# SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
+SESSION_COOKIE_DOMAIN = ".vercel.app"
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
 
