@@ -53,7 +53,7 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
 
   const handleEdit = async (item) => {
     try {
-      const response = await api.get(`/api/order_item/${item}`);
+      const response = await api.get(`/api/order_item/${item}/`);
       setEditingItem(response.data);
       console.log("Editing item:", response.data);
     } catch (error) {
