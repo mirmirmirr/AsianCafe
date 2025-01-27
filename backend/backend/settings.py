@@ -51,6 +51,7 @@ CORS_ALLOW_HEADERS = [
     "Origin",
     "User-Agent",
     "Access-Control-Allow-Credentials",
+    "X-CSRFTOKEN",
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
