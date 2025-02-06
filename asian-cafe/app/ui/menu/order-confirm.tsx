@@ -68,6 +68,8 @@ export default function OrderConfirm({ orderData, onClose }) {
         phone,
       });
       
+      let formattedTime = null;
+
       if (pickupOption === 'ASAP') {
         const currentTime = new Date();
         currentTime.setMinutes(currentTime.getMinutes() + 20);
@@ -80,10 +82,17 @@ export default function OrderConfirm({ orderData, onClose }) {
         const ampm = hour >= 12 ? 'PM' : 'AM';
 
         hour = hour % 12 || 12;
-        const formattedTime = `${hour}:${minutes} ${ampm}`;
+        formattedTime = `${hour}:${minutes} ${ampm}`;
+      } else {
+        let hour = parseInt(pickupTime.substring(0, 2), 10);
+        const minutes = pickupTime.substring(3, 5);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
 
-        setPickupTime(formattedTime);
+        hour = hour % 12|| 12;
+        formattedTime = `${hour}:${minutes} ${ampm}`;
       }
+
+      setPickupTime(formattedTime);
       setOrderPlaced(true);
     }
 
