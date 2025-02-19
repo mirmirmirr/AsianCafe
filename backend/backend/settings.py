@@ -180,6 +180,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+REST_FRAMEWORK = {'DEFAULT_ROUTER_TRAILING_SLASH': False}
+
 # This setting informs Django of the URI path from which your static files will be served to users
 # Here, they well be accessible at your-domain.onrender.com/static/... or yourcustomdomain.com/static/...
 STATIC_URL = '/static/'
