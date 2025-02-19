@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-6*v#*4-i6k3wppyt37o!q3g(85o-%u)@n)&%a)e7h-f&5b*#z#"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
     "asiancafefayetteville.onrender.com", 
@@ -47,6 +47,7 @@ ALLOWED_HOSTS = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
     "https://asiancafefayetteville.onrender.com",
     "https://asiancafefayetteville.vercel.app"
 ]
@@ -78,16 +79,17 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_COOKIE_SECURE = False
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
     "https://asiancafefayetteville.onrender.com",
     "https://asiancafefayetteville.vercel.app"
 ]
-CSRF_COOKIE_SAMESITE = "None"
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = os.getenv("CSRF_COOKIE_SAMESITE")
+CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE") == "True"
 
 # SESSION_COOKIE_DOMAIN = ".asiancafefayetteville.onrender.com"
 SESSION_COOKIE_DOMAIN = None
-SESSION_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = os.getenv("SESSION_COOKIE_SAMESITE")
+SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE") == "True"
 
 # Application definition
 
