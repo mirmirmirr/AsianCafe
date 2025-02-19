@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useOrder } from './OrderContext';
 
 import ExtraOptions from "./extra-options";
-import QuantityCounter from "./counter";
+import QuantityCounter from "../components/counter";
 
 export default function OrderForm({ selectedItem, setSelectedItem, isEditing = false}) {
   const [quantity, setQuantity] = useState(1);

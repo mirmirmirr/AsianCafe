@@ -1,10 +1,10 @@
 'use client'
 
-import { EmblaCarousel } from "./ui/carousel";
+import { EmblaCarousel } from "./ui/components/carousel";
 import { useEffect } from 'react';
 import api from '@/app/lib/axios';
 import Link from "next/link";
-import Map from "@/app/ui/map";
+import Map from "@/app/ui/layout/map";
 
 export default function Home() {
 

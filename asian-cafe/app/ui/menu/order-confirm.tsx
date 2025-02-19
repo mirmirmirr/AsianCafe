@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { OrderSummaryList } from './order-summary';
-import CustomTimePicker from './time-picker';
 
 export default function OrderConfirm({ orderData, onClose }) {
   const [orderPlaced, setOrderPlaced] = useState(false);

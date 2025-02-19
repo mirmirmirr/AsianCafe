@@ -2,7 +2,7 @@
 
 import api from '@/app/lib/axios';
 import { useEffect, useState } from 'react';
-import QuantityCounter from './counter';
+import QuantityCounter from '../components/counter';
 
 export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
   const [extras, setExtras] = useState(null);
@@ -11,7 +11,7 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
   useEffect(() => {
     async function fetchExtras() {
       try {
-        const response = await api.get(`/api/extras/${itemCode}/`);
+        const response = await api.get(`/api/extras/${itemCode}`);
         const data = response.data;
         setExtras(data["extras"]);
         setLoading(false);

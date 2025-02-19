@@ -44,7 +44,7 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
   const handleDelete = async (orderId) => {
     try {
       console.log("Deleting order item:", orderId);
-      await api.delete(`/api/order_item/${orderId}/`);
+      await api.delete(`/api/order_item/${orderId}`);
       updateOrder(); // Trigger the order update
     } catch (error) {
       console.error("Failed to delete order item:", error);

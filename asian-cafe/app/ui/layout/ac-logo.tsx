@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { geistSans } from '@/app/ui/fonts';
+import { geistSans } from '@/app/ui/styles/fonts';
 
 export function ACLogoHorizontal({ width }) {
   return (
