@@ -5,7 +5,7 @@ import api from '@/app/lib/axios';
 import Order from '@/app/ui/menu/order';
 import CategoryLinks from '../ui/menu/category-links';
 import { useEffect, useState } from 'react';
-import OrderConfirm from "../ui/menu/order-confirm";
+import OrderConfirm from "../ui/menu/order-confirm/order-confirm";
 
 export default function Page() {
   const [sections, setSections] = useState([]);
