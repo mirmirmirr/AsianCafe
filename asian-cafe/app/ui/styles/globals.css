@@ -45,18 +45,15 @@ body {
   z-index: 1000; /* Ensure it's on top of other elements */
 }
 
-/* .custom-time-input {
-  appearance: none;
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 16px;
-  color: #333;
-} */
+  margin: 0;
+}
 
+.no-spinner {
+  -moz-appearance: textfield;
+}
 
 .button-hover-red img {
   transition: filter 0.3s ease;

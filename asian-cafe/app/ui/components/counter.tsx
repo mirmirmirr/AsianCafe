@@ -6,11 +6,29 @@ export default function QuantityCounter({ quantity, setQuantity }) {
   const decreaseQuantity = () =>
     setQuantity(quantity > 1 ? quantity - 1 : quantity);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    if (value === "") {
+      setQuantity(""); 
+      return;
+    }
+
+    const parsedValue = parseInt(value, 10);
+    if (!isNaN(parsedValue) && parsedValue > 0) {
+      setQuantity(parsedValue);
+    }
+  };
+
+  const handleBlur = () => {
+    if (quantity === "" || isNaN(quantity) || quantity <= 0) {
+      setQuantity(1);
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
-      <label className="font-medium">
-        Quantity:
-      </label>
+      <label className="font-medium">Quantity:</label>
       <div className="flex items-center gap-2">
         <button
           type="button"
@@ -19,7 +37,14 @@ export default function QuantityCounter({ quantity, setQuantity }) {
         >
           -
         </button>
-        <p className="w-6 text-center">{quantity}</p>
+        <input
+          type="number"
+          value={quantity}
+          onChange={handleInputChange}
+          onBlur={handleBlur}
+          className="w-12 text-center border border-gray-300 rounded no-spinner"
+          min={1}
+        />
         <button
           type="button"
           onClick={increaseQuantity}
@@ -29,5 +54,5 @@ export default function QuantityCounter({ quantity, setQuantity }) {
         </button>
       </div>
     </div>
-  )
+  );
 }
