@@ -101,6 +101,11 @@ def delete_order_item(request, order_item_id):
   try:
       order_item = OrderItem.objects.get(id=order_item_id)
       order_item.delete()
+
+      order_number = order_item.order_id
+      if not OrderItem.objects.filter(order_id=order_number).exists():
+          print("Deleting order #", order_number)
+          Order.objects.filter(id=order_number).delete()
       return JsonResponse({"message": "Order item deleted successfully!"}, status=status.HTTP_200_OK)
   except OrderItem.DoesNotExist:
       raise NotFound("Order item does not exist.")
