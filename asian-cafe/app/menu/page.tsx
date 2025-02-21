@@ -70,7 +70,6 @@ export default function Page() {
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
         <OrderConfirm           
-          orderData={""}
           onClose={() => setIsOrderVisible(false)}
         />
       </div>

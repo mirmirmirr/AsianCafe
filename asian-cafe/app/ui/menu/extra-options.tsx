@@ -20,7 +20,7 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
       }
     }
     fetchExtras();
-  }, []);
+  }, [itemCode]);
   
   if (isLoading) return <p>Loading...</p>
 

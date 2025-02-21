@@ -89,6 +89,8 @@ export default function OrderConfirm({ onClose }) {
 
   if (orderPlaced) {
     const { pickupTime, name, phone } = orderDetails;
+    setOrderPlaced(false);
+    
     return (
       <OrderSheetWrapper onClose={onClose}>
         <Confirmation
