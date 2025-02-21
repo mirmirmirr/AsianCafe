@@ -27,6 +27,9 @@ export default function Order({ setOrderQuantity }) {
   }, [isConfirmingOrder]);
 
   const closeOrder = () => {
+    document.body.style.overflow = 'auto';
+    document.body.style.paddingRight = '';
+
     setAnimateIn(false);
     setTimeout(() => setIsConfirmingOrder(false), 250);
   };
