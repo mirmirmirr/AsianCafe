@@ -58,7 +58,8 @@ def get_extras(request, itemID):
         a.get_quantity
       FROM addon a
         JOIN addon_category ac USING (addon_category_id)
-        JOIN addon_codes ad ON a.addon_category_id = ad.addon_category_id;
+        JOIN addon_codes ad ON a.addon_category_id = ad.addon_category_id
+      ORDER BY a.addon_id;
       """, [itemID])
     rows = cursor.fetchall()
     column_names = [desc[0] for desc in cursor.description]
