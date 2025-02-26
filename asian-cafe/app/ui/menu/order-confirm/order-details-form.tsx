@@ -1,5 +1,8 @@
+import { useState } from "react";
+import SegmentedControl from "@/app/ui/components/segmented-control";
 
-export default function OrderConfirmForm({ orderDetails, updateOrderDetails, setErrors, errors }) {
+export default function OrderDetailsForm({ orderDetails, updateOrderDetails, setErrors, errors }) {
+  const [selectedOption, setSelectedOption] = useState(orderDetails.pickupOption || "ASAP");
 
   const openingHours = {
     'Sunday': [],
@@ -12,52 +15,47 @@ export default function OrderConfirmForm({ orderDetails, updateOrderDetails, set
   };
 
   const isWithinOpeningHours = (selectedTime) => {
-    updateOrderDetails('pickupTime', selectedTime);
-
-    const day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    updateOrderDetails("pickupTime", selectedTime);
+    const day = new Date().toLocaleDateString("en-US", { weekday: "long" });
     const hours = openingHours[day];
 
     const avail = hours.some(({ start, end }) => selectedTime >= start && selectedTime <= end);
     if (!avail) {
-      setErrors(prevErrors => ({ ...prevErrors, time:'Please choose a pickup time within opening hours'}));
+      setErrors((prevErrors) => ({ ...prevErrors, time: "Please choose a pickup time within opening hours" }));
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, time:''}));
+      setErrors((prevErrors) => ({ ...prevErrors, time: "" }));
+    }
+  };
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+    updateOrderDetails("pickupOption", option);
+    if (option === "ASAP") {
+      updateOrderDetails("pickupTime", "ASAP");
     }
   };
 
   return (
-    <form className="mb-4">
+    <div className="mb-4">
       <div className="mb-2">
-        <label className="block text-sm font-medium">Pick Up Time</label>
-        <div className="flex items-center mb-2">
-          <input
-            type="radio"
-            id="asap"
-            name="pickupOption"
-            value="ASAP"
-            checked={(orderDetails.pickupOption === 'ASAP')}
-            onChange={() => { updateOrderDetails("pickupOption", 'ASAP'); updateOrderDetails("pickupTime", 'ASAP'); }}
-            className="mr-2"
-          />
-          <label htmlFor="asap" className="mr-4">ASAP</label>
-          <input
-            type="radio"
-            id="schedule"
-            name="pickupOption"
-            value="Schedule"
-            checked={(orderDetails.pickupOption === 'Schedule')}
-            onChange={() => { updateOrderDetails("pickupOption", 'Schedule'); }}
-            className="mr-2"
-          />
-          <label htmlFor="schedule">Schedule Time</label>
-        </div>
-        {orderDetails.pickupOption === 'Schedule' && (
+        <SegmentedControl
+          options={[{ label: "ASAP", value: "ASAP" }, { label: "Schedule", value: "Schedule" }]}
+          selected={selectedOption}
+          onChange={handleOptionChange}
+        />
+        {selectedOption === "ASAP" && 
+          <div className="m-2 text-[15px] italic h-12 flex flex-col justify-center">
+            Your order will be ready for pickup in around <strong>20 minutes</strong>
+          </div>
+        }
+
+        {selectedOption === "Schedule" && (
           <div>
             <input
               type="time"
               value={orderDetails.pickupTime}
               onChange={(e) => isWithinOpeningHours(e.target.value)}
-              className={`custom-time-input w-full border border-gray-300 p-2 rounded ${errors.time ? "bg-pink border-red focus:border-red" : ''}`}
+              className={`w-full border border-gray-300 p-2 rounded ${errors.time ? "bg-pink border-red focus:border-red" : ""}`}
             />
             {errors.time && <p className="text-red text-sm">{errors.time}</p>}
           </div>
@@ -69,7 +67,7 @@ export default function OrderConfirmForm({ orderDetails, updateOrderDetails, set
           type="text"
           value={orderDetails.name}
           onChange={(e) => updateOrderDetails("name", e.target.value)}
-          className={`w-full border border-gray-300 p-2 rounded ${errors.name ? "bg-pink border-red focus:border-red" : ''}`}
+          className={`w-full border border-gray-300 p-2 rounded ${errors.name ? "bg-pink border-red focus:border-red" : ""}`}
         />
         {errors.name && <p className="text-red text-sm">{errors.name}</p>}
       </div>
@@ -79,10 +77,10 @@ export default function OrderConfirmForm({ orderDetails, updateOrderDetails, set
           type="tel"
           value={orderDetails.phone}
           onChange={(e) => updateOrderDetails("phone", e.target.value)}
-          className={`w-full border border-gray-300 p-2 rounded ${errors.phone ? "bg-pink border-red focus:border-red" : ''}`}
+          className={`w-full border border-gray-300 p-2 rounded ${errors.phone ? "bg-pink border-red focus:border-red" : ""}`}
         />
         {errors.phone && <p className="text-red text-sm">{errors.phone}</p>}
       </div>
-    </form>
+    </div>
   );
 }

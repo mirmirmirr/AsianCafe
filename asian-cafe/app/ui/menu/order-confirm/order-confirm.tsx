@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { OrderSummaryList } from '../order-summary';
 import Confirmation from './order-confirmation';
-import OrderConfirmForm from './order-details-form';
+import OrderDetailsForm from './order-details-form';
 import OrderPriceSummary from './order-price-summary';
 
 export default function OrderConfirm({ onClose }) {
@@ -106,8 +106,8 @@ export default function OrderConfirm({ onClose }) {
 
   return (
     <OrderSheetWrapper onClose={onClose}>
-        <h2 className="text-xl font-bold mb-4">My Order</h2>
-        <OrderConfirmForm orderDetails={orderDetails} updateOrderDetails={updateOrderDetails} errors={errors} setErrors={setErrors} />
+        <h2 className="md:block hidden text-xl font-bold mb-4">My Order</h2>
+        <OrderDetailsForm orderDetails={orderDetails} updateOrderDetails={updateOrderDetails} errors={errors} setErrors={setErrors} />
         <OrderSummaryList setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
 
         <div className='justify-center fixed bottom-8 z-50'>
@@ -127,7 +127,14 @@ function OrderSheetWrapper({ children, onClose }) {
   return (
     <div className='fixed top-0 right-0 h-full w-full md:w-[390px] bg-white'>
       <div className="relative w-full max-w-lg h-full overflow-y-auto bg-white p-8">
-        <button className="mb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
+        <div className='md:hidden block flex gap-5 items-center'>
+          <button className="mb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
+            <img src="/icons/cross.svg" alt="close" width={25} height={25} />
+          </button>
+          <h2 className="md:hidden block text-xl font-bold mb-4">My Order</h2>
+        </div>
+
+        <button className="md:block hidden mb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
           <img src="/icons/cross.svg" alt="close" width={30} height={30} />
         </button>
         {children}

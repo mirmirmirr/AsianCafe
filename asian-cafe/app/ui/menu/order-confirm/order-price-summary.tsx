@@ -1,7 +1,7 @@
 
 export default function OrderPriceSummary({ totalPrice }) {
   return (
-    <div className='flex flex-row m-2 mb-8 justify-between'>
+    <div className='flex flex-row m-2 mb-4 justify-between'>
     <h3 className="block text-md font-medium">Summary</h3>
     <div>
       <div className='grid grid-cols-2 gap-2 border-b-2 w-[175px]'>

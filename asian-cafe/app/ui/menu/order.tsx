@@ -15,14 +15,13 @@ export default function Order({ setOrderQuantity }) {
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollbarWidth}px`;
 
-      setTimeout(() => {
-        setAnimateIn(true);
-      }, 50);
+      setAnimateIn(true);
+
     } else {
       document.body.style.overflow = 'auto';
       document.body.style.paddingRight = '';
       
-      setAnimateIn(false);
+      // setAnimateIn(false);
     }
   }, [isConfirmingOrder]);
 
@@ -30,8 +29,8 @@ export default function Order({ setOrderQuantity }) {
     document.body.style.overflow = 'auto';
     document.body.style.paddingRight = '';
 
+    setTimeout(() => setIsConfirmingOrder(false), 200);
     setAnimateIn(false);
-    setTimeout(() => setIsConfirmingOrder(false), 250);
   };
 
   return (
