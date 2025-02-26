@@ -28,13 +28,11 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
       setSelectedExtras(JSON.parse(selectedItem.extras || "[]"));
       setSpecialRequests(selectedItem.special_requests || "");
       setUnitPrice(selectedItem.total_price / selectedItem.quantity);
-      setTotalPrice(selectedItem.total_price);
     } else {
       setQuantity(1);
       setSelectedExtras([]);
       setSpecialRequests("");
       setUnitPrice(selectedItem.price);
-      setTotalPrice(selectedItem.price);
     }
   }, [selectedItem, isEditing]);
 
@@ -78,43 +76,40 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
   };  
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md relative">
+    <div className="bg-white p-8 rounded-[20px] shadow-lg relative w-[75vw] md:w-[40vw]">
+      <div className='flex flex-row justify-between mb-2'>
+        <h3 className="text-xl font-semibold">{selectedItem.name}</h3>
         <button
           onClick={handleFormClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
           aria-label="Close order form"
         >
           <img src="/icons/cross.svg" alt="close" width={20} height={20} />
         </button>
-        <h3 className="text-lg font-bold mb-4">{selectedItem.name}</h3>
-        <form>
-          <ExtraOptions itemCode={selectedItem.id} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
-          <div className="mb-4">
-            <label className="block font-medium">
-              Special Requests:
-            </label>
-            <p className='text-[14px] text-gray-600 mb-2'>If a price adjustment is needed, it will be charged to your order.</p>
-            <textarea
-              id="specialRequests"
-              value={specialRequests}
-              onChange={(e) => setSpecialRequests(e.target.value)}
-              placeholder='e.g. "No onions"'
-              className="w-full p-2 border rounded"
-            ></textarea>
-          </div>
-          <div className="flex md:flex-row flex-col justify-between gap-4">
-            <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
+      </div>
+      <ExtraOptions itemCode={selectedItem.id} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
+      <div className="mb-2">
+        <label className="block font-medium">
+          Special Requests:
+        </label>
+        <p className='text-[14px] text-gray-600 mb-2'>If a price adjustment is needed, it will be charged to your order.</p>
+        <textarea
+          id="specialRequests"
+          value={specialRequests}
+          onChange={(e) => setSpecialRequests(e.target.value)}
+          placeholder='e.g. "No onions"'
+          className="w-full p-2 border rounded"
+        ></textarea>
+      </div>
+      <div className="flex md:flex-row flex-col justify-between gap-4">
+        <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
 
-            <button
-              type="button"
-              className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
-              onClick={handleAddToOrder}
-            >
-              {isEditing ? "Update Item" : "Add to Order"}  ${totalPrice.toFixed(2)}
-            </button>
-          </div>
-        </form>
+        <button
+          type="button"
+          className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
+          onClick={handleAddToOrder}
+        >
+          {isEditing ? "Update Item" : "Add to Order"}  ${totalPrice.toFixed(2)}
+        </button>
       </div>
     </div>
   );

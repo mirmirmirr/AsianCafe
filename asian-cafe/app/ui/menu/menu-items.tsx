@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderForm from "./order-form";
 
 export function SectionMobile({ section }) {
@@ -68,9 +68,31 @@ function SubSection({ subsection }) {
 
 function MenuItems({ items }) {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [animateIn, setAnimateIn] = useState(false);
 
   const handleButtonClick = (item) => {
     setSelectedItem(item);
+  };
+
+  useEffect(() => {
+    if (selectedItem) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+      setAnimateIn(true);
+    } else {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '';
+    }
+  }, [selectedItem]);
+
+  const closeOrder = () => {
+    document.body.style.overflow = 'auto';
+    document.body.style.paddingRight = '';
+
+    setAnimateIn(false);
+    setTimeout(() => setSelectedItem(null), 300);
   };
 
   return (
@@ -104,7 +126,25 @@ function MenuItems({ items }) {
       ))}
 
       {selectedItem && (
-        <OrderForm selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+          <div 
+            className={`
+              absolute inset-0 bg-black bg-opacity-50 
+              transition-opacity duration-300
+              ${animateIn ? 'opacity-100' : 'opacity-0'}
+            `}
+            onClick={closeOrder}
+          />
+
+          <div
+            className={`
+              transition-opacity duration-300
+              ${animateIn ? 'opacity-100' : 'opacity-0'}
+            `}
+          >
+            <OrderForm selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+          </div>
+        </div>
       )}
     </>
   )

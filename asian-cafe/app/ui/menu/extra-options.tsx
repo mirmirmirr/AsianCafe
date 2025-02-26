@@ -1,38 +1,52 @@
 'use client'
 
 import api from '@/app/lib/axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import QuantityCounter from '../components/counter';
+import RadioCards from '../components/radio-cards';
 
 export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
   const [extras, setExtras] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchExtras() {
+    const fetchExtras = async () => {
       try {
-        const response = await api.get(`/api/extras/${itemCode}`);
-        const data = response.data;
-        setExtras(data["extras"]);
-        setLoading(false);
+        const { data } = await api.get(`/api/extras/${itemCode}`);
+        setExtras(data?.extras || []);
       } catch (error) {
         console.error('Error fetching extras:', error);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
     fetchExtras();
   }, [itemCode]);
-  
-  if (isLoading) return <p>Loading...</p>
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className='space-y-2 mb-4 max-h-[40vh] overflow-y-scroll'>
+    <div className='space-y-2 mb-2 max-h-[45vh] overflow-y-scroll'>
       {extras.map((category, index) => (
         <div key={index}>
-          <h3 className='font-[600]'>{ category.category }</h3>
+          <h3 className='font-semibold'>{ category.category }</h3>
           {["Rice", "Noodle Type", "Broth"].includes(category.category) ? (
-            <DropDownOptions categoryName={category.category} selectedExtras={selectedExtras[category.category]?.chosen_options || []} options={category.options} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
+            <DropDownOptions 
+              categoryName={category.category}
+              selectedExtras={selectedExtras[category.category]?.chosen_options || []}
+              options={category.options}
+              setSelectedExtras={setSelectedExtras}
+              setSelectedExtrasPrice={setSelectedExtrasPrice}
+            />
           ) : (
-            <RegularOptions categoryName={category.category} selectedExtras={selectedExtras[category.category]?.chosen_options || []} options={category.options} optionIndex={index} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
+            <RegularOptions 
+              categoryName={category.category}
+              selectedExtras={selectedExtras[category.category]?.chosen_options || []}
+              options={category.options}
+              optionIndex={index} 
+              setSelectedExtras={setSelectedExtras}
+              setSelectedExtrasPrice={setSelectedExtrasPrice}
+            />
           )}
         </div>
       ))}
@@ -209,50 +223,52 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
     setSelectedExtrasPrice((prev) => prev + options[0].price);
   }, [categoryName, options, setSelectedExtras, setSelectedExtrasPrice]);
 
-  const handleOptionSelect = (option) => {
-    setSelectedExtras((prev) => {
-      const updatedExtras = {...prev};
-      const category = updatedExtras[categoryName];
+  const handleOptionSelect = useCallback(
+    (option) => {
+      setSelectedExtras((prev) => ({
+        ...prev,
+        [categoryName]: { category: categoryName, chosen_options: [option.name] }
+      }));
 
-      if (!category) {
-        updatedExtras[categoryName] = { category: categoryName, chosen_options: [option.name] };
-      } else {
-        updatedExtras[categoryName].chosen_options = [option.name];
-      }
+      setSelectedExtrasPrice((prev) => prev - selectedOption.price + option.price);
+      setSelectedOption(option);
+      setIsDropdownOpen(false);
+    },
+    [categoryName, selectedOption, setSelectedExtras, setSelectedExtrasPrice]
+  );
 
-      return updatedExtras;
-    });
-
-    setSelectedExtrasPrice((prev) => prev - selectedOption.price + option.price);    
-
-    setSelectedOption(option);
-    setIsDropdownOpen(false);
-  };
+  console.log("OPTIONS", options);
 
   return (
-    <div className="relative inline-block text-left">
-      <button
-        onClick={toggleDropdown}
-        className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 w-[65vw] max-w-[375px]"
-      >
-        { selectedOption.name } { selectedOption.price === 0 ? "" : `($${parseFloat(selectedOption.price).toFixed(2)})` }
-      </button>
+    <RadioCards 
+      options={options} 
+      selected={selectedOption.name} 
+      onChange={handleOptionSelect}
+    />
 
-      {isDropdownOpen && (
-        <ul className="absolute bg-white border rounded shadow-lg w-full mt-1 max-h-60 overflow-y-auto z-10">
-          {options.map((option, index) => (
-            <li
-              key={index}
-              value={option.price}
-              onClick={() => handleOptionSelect(option)}
-              className={`flex justify-between px-4 py-2 m-2 rounded hover:bg-gray-100 cursor-pointer ${selectedOption.name === option.name ? "bg-lightgreen" : ""}`}
-            >
-              {option.name} { option.price === 0 ? "" : `($${parseFloat(option.price).toFixed(2)})` }
-              {selectedOption.name === option.name && <img src="/icons/checkmark.svg" alt="selected option" width={20} height={20} />}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    // <div className="relative inline-block text-left">
+    //   <button
+    //     onClick={toggleDropdown}
+    //     className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 w-[65vw] max-w-[375px]"
+    //   >
+    //     { selectedOption.name } { selectedOption.price === 0 ? "" : `($${parseFloat(selectedOption.price).toFixed(2)})` }
+    //   </button>
+
+    //   {isDropdownOpen && (
+    //     <ul className="absolute bg-white border rounded shadow-lg w-full mt-1 max-h-60 overflow-y-auto z-10">
+    //       {options.map((option, index) => (
+    //         <li
+    //           key={index}
+    //           value={option.price}
+    //           onClick={() => handleOptionSelect(option)}
+    //           className={`flex justify-between px-4 py-2 m-2 rounded hover:bg-gray-100 cursor-pointer ${selectedOption.name === option.name ? "bg-lightgreen" : ""}`}
+    //         >
+    //           {option.name} { option.price === 0 ? "" : `($${parseFloat(option.price).toFixed(2)})` }
+    //           {selectedOption.name === option.name && <img src="/icons/checkmark.svg" alt="selected option" width={20} height={20} />}
+    //         </li>
+    //       ))}
+    //     </ul>
+    //   )}
+    // </div>
   );
 }
