@@ -30,7 +30,7 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
         <div key={index}>
           <h3 className='font-[600]'>{ category.category }</h3>
           {["Rice", "Noodle Type", "Broth"].includes(category.category) ? (
-              <DropDownOptions categoryName={category.category} selectedExtras={selectedExtras[category.category]?.chosen_options || []} options={category.options} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
+            <DropDownOptions categoryName={category.category} selectedExtras={selectedExtras[category.category]?.chosen_options || []} options={category.options} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
           ) : (
             <RegularOptions categoryName={category.category} selectedExtras={selectedExtras[category.category]?.chosen_options || []} options={category.options} optionIndex={index} setSelectedExtras={setSelectedExtras} setSelectedExtrasPrice={setSelectedExtrasPrice} />
           )}

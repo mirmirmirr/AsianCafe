@@ -10,19 +10,34 @@ import QuantityCounter from "../components/counter";
 export default function OrderForm({ selectedItem, setSelectedItem, isEditing = false}) {
   const [quantity, setQuantity] = useState(1);
   const [unitPrice, setUnitPrice] = useState(selectedItem.price);
+  const [totalPrice, setTotalPrice] = useState(unitPrice * quantity);
   const [selectedExtras, setSelectedExtras] = useState([]);
   const [specialRequests, setSpecialRequests] = useState("");
   const { updateOrder } = useOrder();
 
   useEffect(() => {
+    setTotalPrice(unitPrice * quantity);
+  }, [unitPrice, quantity]);
+
+  useEffect(() => {
+    if (!selectedItem) return;
+    
     console.log("isEditing", isEditing);
     if (isEditing) {
       setQuantity(selectedItem.quantity);
-      setSelectedExtras(JSON.parse(selectedItem.extras));
+      setSelectedExtras(JSON.parse(selectedItem.extras || "[]"));
       setSpecialRequests(selectedItem.special_requests || "");
       setUnitPrice(selectedItem.total_price / selectedItem.quantity);
+      setTotalPrice(selectedItem.total_price);
+    } else {
+      setQuantity(1);
+      setSelectedExtras([]);
+      setSpecialRequests("");
+      setUnitPrice(selectedItem.price);
+      setTotalPrice(selectedItem.price);
     }
-  }, [selectedItem]);
+  }, [selectedItem, isEditing]);
+
 
   const handleFormClose = () => {
     setSelectedItem(null);
@@ -30,38 +45,37 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
 
   const handleAddToOrder = async (e) => {
     e.preventDefault();
-
+    
+    if (!selectedItem || !quantity) {
+      console.error("Invalid order: Missing item or quantity");
+      return;
+    }
+  
+    const payload = {
+      menu_item_id: selectedItem.id,
+      total_price: totalPrice,
+      extras: selectedExtras,
+      quantity,
+      special_requests: specialRequests.trim(),
+    };
+  
     try {
-      const payload = {
-        menu_item_id: selectedItem.id,
-        total_price: (unitPrice) * quantity,
-        extras: selectedExtras,
-        quantity: quantity,
-        special_requests: specialRequests,
-      };
-
-      const response = isEditing ? await api.patch(`/api/order_item/${selectedItem.order_item_id}`, payload, { withCredentials: true }) : await api.post("/api/add_order_item", payload, { withCredentials: true });
-
-      console.log("order added:", response.data);
-
-      updateOrder(); 
+      const endpoint = isEditing 
+        ? `/api/order_item/${selectedItem.order_item_id}`
+        : "/api/add_order_item";
+      
+      const method = isEditing ? api.patch : api.post;
+  
+      const response = await method(endpoint, payload, { withCredentials: true });
+  
+      console.log("Order updated:", response.data);
+  
+      updateOrder();
       setSelectedItem(null);
-
     } catch (error) {
       console.error("Error adding order item:", error.response?.data || error.message);
     }
-
-    // Logic to add item to the cart (implement your `addToCart` function here)
-    console.log("Order added:", {
-      id: selectedItem.id,
-      name: selectedItem.name,
-      price: selectedItem.price,
-      quantity,
-      extras: selectedExtras,
-      total: (unitPrice) * quantity,
-    });
-    setSelectedItem(null); // Close the form after adding to order
-  };
+  };  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
@@ -69,8 +83,9 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
         <button
           onClick={handleFormClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          aria-label="Close order form"
         >
-          ✖
+          <img src="/icons/cross.svg" alt="close" width={20} height={20} />
         </button>
         <h3 className="text-lg font-bold mb-4">{selectedItem.name}</h3>
         <form>
@@ -92,11 +107,11 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
             <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
 
             <button
-              type="submit"
+              type="button"
               className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
               onClick={handleAddToOrder}
             >
-              {isEditing ? "Update Item" : "Add to Order"}  ${((unitPrice) * quantity).toFixed(2)}
+              {isEditing ? "Update Item" : "Add to Order"}  ${totalPrice.toFixed(2)}
             </button>
           </div>
         </form>
