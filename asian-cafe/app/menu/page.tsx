@@ -59,7 +59,7 @@ export default function Page() {
 
       <button
         onClick={() => setIsOrderVisible(!isOrderVisible)}
-        className='md:hidden fixed flex items-center gap-2 bottom-8 right-8 bg-darkgreen text-black p-4 rounded-full shadow-lg z-50'
+        className='md:hidden fixed flex items-center gap-2 bottom-8 right-8 bg-darkgreen text-black p-4 rounded-full shadow-lg'
       >
         <img src="/icons/shop-bag.svg" alt="selected option" width={30} height={30} />
         {orderQuantity > 0 && <span>{orderQuantity}</span> }

@@ -2,16 +2,19 @@
 
 import api from '@/app/lib/axios';
 import { useEffect, useState } from "react";
-import { useOrder } from './OrderContext';
+import { useOrder } from '../OrderContext';
 
 import ExtraOptions from "./extra-options";
-import QuantityCounter from "../components/counter";
+import QuantityCounter from "../../components/counter";
+import SpecialRequests from './special-request';
 
 export default function OrderForm({ selectedItem, setSelectedItem, isEditing = false}) {
   const [quantity, setQuantity] = useState(1);
   const [unitPrice, setUnitPrice] = useState(selectedItem.price);
   const [totalPrice, setTotalPrice] = useState(unitPrice * quantity);
   const [selectedExtras, setSelectedExtras] = useState([]);
+
+  const [addingSpecialRequests, setAddingSpecialRequests] = useState(false);
   const [specialRequests, setSpecialRequests] = useState("");
   const { updateOrder } = useOrder();
 
@@ -87,25 +90,41 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
         </button>
       </div>
       <ExtraOptions itemCode={selectedItem.id} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
-      <div className="mb-2 p-8 pb-0 pt-0">
-        <label className="block font-medium">
-          Special Requests:
-        </label>
-        <p className='text-[14px] text-gray-600 mb-2'>If a price adjustment is needed, it will be charged to your order.</p>
-        <textarea
-          id="specialRequests"
-          value={specialRequests}
-          onChange={(e) => setSpecialRequests(e.target.value)}
-          placeholder='e.g. "No onions"'
-          className="w-full p-2 border rounded"
-        ></textarea>
+      
+      <div onClick={() => setAddingSpecialRequests(!addingSpecialRequests)} className="mb-2 m-8 mt-2 px-4 py-2 border border-lightgreen font-medium">
+        {specialRequests 
+          ? (
+            <div>
+              <p>Special Requests:</p>
+              <p className="text-sm font-normal">{specialRequests}</p>
+            </div>
+           ) 
+          : "Add Special Requests"
+        }
       </div>
-      <div className="flex md:flex-row flex-col justify-between gap-4 p-8 pt-0">
-        <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
 
+      {addingSpecialRequests && (
+        <>
+          <div 
+            className="fixed inset-0 z-40" 
+            onClick={() => setAddingSpecialRequests(false)}
+            aria-label="Close special requests overlay"
+          ></div>
+
+          <SpecialRequests 
+            specialRequests={specialRequests} 
+            setSpecialRequests={setSpecialRequests} 
+            closeRequest={() => setAddingSpecialRequests(false)}
+          />
+        </>
+      )}
+
+      <div className="flex flex-row justify-between gap-4 p-8 pt-0">
+       <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
+        
         <button
           type="button"
-          className="px-6 py-5 bg-[#D0E4BA] text-[#4A6D06] font-bold rounded-full w-[70%] hover:bg-darkgreen"
+          className="px-4 py-3 bg-darkgreen text-white font-bold rounded-full w-[70%] hover:bg-darkgreen"
           onClick={handleAddToOrder}
         >
           {isEditing ? "Update Item" : "Add to Order"}  ${totalPrice.toFixed(2)}

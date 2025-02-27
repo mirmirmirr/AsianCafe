@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import OrderForm from "./order-form";
+import OrderForm from "./mi-customization/order-form";
 
 export function SectionMobile({ section }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

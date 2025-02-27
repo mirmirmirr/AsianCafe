@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import api from '@/app/lib/axios';
 import { useOrder } from './OrderContext';
-import OrderForm from './order-form';
+import OrderForm from './mi-customization/order-form';
 
 export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
   return (

@@ -3,9 +3,9 @@
 import api from '@/app/lib/axios';
 import Image from "next/image";
 import { useEffect, useState, useCallback } from 'react';
-import QuantityCounter from '../components/counter';
-import RadioCards from '../components/radio-cards';
-import AddButton from '../components/add-button';
+import QuantityCounter from '../../components/counter';
+import RadioCards from '../../components/radio-cards';
+import AddButton from '../../components/add-button';
 
 export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
   const [extras, setExtras] = useState([]);
@@ -43,7 +43,7 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className='space-y-2 mb-2 p-8 pt-0 max-h-[65dvh] overflow-y-scroll'>
+    <div className='space-y-2 mb-2 p-8 pt-0 max-h-[60dvh] overflow-y-scroll'>
       <div>
         {dropdownExtras.map((category, index) => (
           <div key={index}>
@@ -57,7 +57,6 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
             />
           </div>
         ))}
-
       </div>
       
       {extras.map((category, index) => (
@@ -215,12 +214,12 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
                 <p className="text-[#7D7D7D]">
                   {!option.get_quantity && `$${parseFloat(option.price).toFixed(2)}`}
                 </p>
+
+                {option.get_quantity && checkedOptions[option.name] && (
+                  <QuantityCounter quantity={quantities[option.name]} setQuantity={(newQuantity) => handleQuantityChange(option, newQuantity)} />
+                )}
               </div>
             </div>
-
-            {option.get_quantity && checkedOptions[option.name] && (
-              <QuantityCounter quantity={quantities[option.name]} setQuantity={(newQuantity) => handleQuantityChange(option, newQuantity)} />
-            )}
           </div>
       )})}
     </>
