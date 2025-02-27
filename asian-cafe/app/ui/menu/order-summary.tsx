@@ -21,23 +21,7 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
   const [editingItem, setEditingItem] = useState(null);
   const [animateIn, setAnimateIn] = useState(false);
 
-  useEffect(() => {
-    if (editMode) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-
-      setAnimateIn(true);
-    } else {
-      document.body.style.overflow = 'auto';
-      document.body.style.paddingRight = '';
-    }
-  }, [editMode]);
-
   const closeOrder = () => {
-    document.body.style.overflow = 'auto';
-    document.body.style.paddingRight = '';
-
     setAnimateIn(false);
     setTimeout(() => setEditMode(false), 300);
   };
@@ -83,6 +67,7 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
     };
 
     setEditMode(true);
+    setAnimateIn(true);
   }
 
   return (
