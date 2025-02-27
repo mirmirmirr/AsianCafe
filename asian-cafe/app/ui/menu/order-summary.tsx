@@ -19,6 +19,28 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
   const { orderUpdated, updateOrder } = useOrder();
   const [editMode, setEditMode] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [animateIn, setAnimateIn] = useState(false);
+
+  useEffect(() => {
+    if (editMode) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+      setAnimateIn(true);
+    } else {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '';
+    }
+  }, [editMode]);
+
+  const closeOrder = () => {
+    document.body.style.overflow = 'auto';
+    document.body.style.paddingRight = '';
+
+    setAnimateIn(false);
+    setTimeout(() => setEditMode(false), 300);
+  };
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -92,9 +114,24 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
         <p>Loading...</p>
       )}
       {editMode && editingItem && ReactDOM.createPortal (
-        <div className='overlay'>
+        <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto">
+          <div 
+            className={`
+              absolute inset-0 bg-black bg-opacity-50 
+              transition-opacity duration-300
+              ${animateIn ? 'opacity-100' : 'opacity-0'}
+            `}
+            onClick={closeOrder}
+          />
 
-        <OrderForm selectedItem={editingItem} setSelectedItem={setEditMode} isEditing={true} />
+          <div
+            className={`
+              transition-opacity duration-300
+              ${animateIn ? 'opacity-100' : 'opacity-0'}
+            `}
+          >
+            <OrderForm selectedItem={editingItem} setSelectedItem={setEditMode} isEditing={true} />
+          </div>
         </div>,
         document.body
       )}
