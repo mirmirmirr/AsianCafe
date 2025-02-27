@@ -1,8 +1,12 @@
+import { cn } from "@/app/lib/utils";
 
 export default function SpecialRequests({ specialRequests, setSpecialRequests, closeRequest }) {
   return (
-    <div 
-      className="flex flex-col gap-2 bg-white p-8 rounded-t-[20px] shadow-[0_0px_75px_6px_rgba(0,0,0,0.25)] z-50 fixed bottom-0 w-full"
+    <div className={cn(
+      "flex flex-col gap-2 bg-white p-8 rounded-t-[20px] shadow-[0_0px_75px_6px_rgba(0,0,0,0.25)] z-50",
+      "fixed bottom-0 w-full",
+      "md:absolute md:w-full md:rounded-[20px]"
+    )}
     >
       <h3 className="text-lg font-semibold">Special Requests</h3>
       <p className="text-sm">

@@ -1,6 +1,7 @@
 "use client";
 
 import api from '@/app/lib/axios';
+import { cn } from "@/app/lib/utils";
 import { useEffect, useState } from "react";
 import { useOrder } from '../OrderContext';
 
@@ -79,7 +80,10 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
   };  
 
   return (
-    <div className='bg-white relative bottom-0 rounded-t-[20px] shadow-lg sticky bottom-0 w-screen h-1/2'>
+    <div className={cn(
+      "bg-white relative bottom-0 rounded-t-[20px] shadow-lg sticky bottom-0 w-screen h-1/2",
+      "md:fixed md:inset-0 md:w-[50%] md:h-fit md:rounded-[20px] md:mx-auto md:my-auto"
+    )}>
       <div className='pb-0 p-8 flex flex-row justify-between mb-2'>
         <h3 className="text-xl font-semibold">{selectedItem.name}</h3>
         <button

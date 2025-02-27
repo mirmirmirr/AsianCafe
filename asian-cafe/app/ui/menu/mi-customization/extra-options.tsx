@@ -1,7 +1,6 @@
 'use client'
 
 import api from '@/app/lib/axios';
-import Image from "next/image";
 import { useEffect, useState, useCallback } from 'react';
 import QuantityCounter from '../../components/counter';
 import RadioCards from '../../components/radio-cards';
@@ -40,7 +39,23 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
     fetchExtras();
   }, [itemCode]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading && itemCode > 12 && itemCode < 65) {
+    return (
+      <div className='space-y-2 mb-2 p-8 pt-0 max-h-[60dvh] overflow-y-scroll'>
+        {[...Array(8)].map((_, index) => (
+          <div key={index} className="mb-2 p-2 bg-gray-200 animate-pulse rounded-md">
+            <div className="flex flex-row items-center space-x-4">
+              <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <div className="w-24 h-4 bg-gray-300 rounded-md mb-1"></div>
+                <div className="w-16 h-3 bg-gray-300 rounded-md"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );    
+  }
 
   return (
     <div className='space-y-2 mb-2 p-8 pt-0 max-h-[60dvh] overflow-y-scroll'>
@@ -209,7 +224,7 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
                 option={option}
               />
 
-              <div>
+              <div className='md:flex md:flex-row space-between items-center gap-2'>
                 <strong>{option.name}</strong>
                 <p className="text-[#7D7D7D]">
                   {!option.get_quantity && `$${parseFloat(option.price).toFixed(2)}`}

@@ -28,11 +28,11 @@ export default function QuantityCounter({ quantity, setQuantity }) {
   // };
 
   return (
-    <div className="flex items-center border-2 border-[#EBEFE8] rounded-full w-fit text-xl" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center border-2 border-[#EBEFE8] rounded-full w-fit md:flex-1 justify-between text-xl" onClick={(e) => e.stopPropagation()}>
       <button
         type="button"
         onClick={decreaseQuantity}
-        className="px-2 py-1 md:hover:bg-gray-300"
+        className="px-2 md:px-4 py-2 md:hover:bg-[#EBEFE8] rounded-full"
       >
         -
       </button>
@@ -48,7 +48,7 @@ export default function QuantityCounter({ quantity, setQuantity }) {
       <button
         type="button"
         onClick={increaseQuantity}
-        className="px-2 py-1 md:hover:bg-gray-300"
+        className="px-2 md:px-4 py-2 md:hover:bg-[#EBEFE8] rounded-full"
       >
         +
       </button>
