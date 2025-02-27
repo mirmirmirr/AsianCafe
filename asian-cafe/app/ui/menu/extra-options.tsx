@@ -1,19 +1,36 @@
 'use client'
 
 import api from '@/app/lib/axios';
+import Image from "next/image";
 import { useEffect, useState, useCallback } from 'react';
 import QuantityCounter from '../components/counter';
 import RadioCards from '../components/radio-cards';
+import AddButton from '../components/add-button';
 
 export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
-  const [extras, setExtras] = useState(null);
+  const [extras, setExtras] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [dropdownExtras, setDropdownExtras] = useState([]);
 
   useEffect(() => {
     const fetchExtras = async () => {
       try {
         const { data } = await api.get(`/api/extras/${itemCode}`);
-        setExtras(data?.extras || []);
+        const allExtras = data?.extras || [];
+
+        const newDropdownExtras = [];
+        const filteredExtras = [];
+
+        allExtras.forEach((category) => {
+          if (category.options.length > 0 && ["Rice", "Noodle Type", "Broth"].includes(category.category)) {
+            newDropdownExtras.push(category);
+          } else {
+            filteredExtras.push(category);
+          }
+        });
+
+        setDropdownExtras(newDropdownExtras);
+        setExtras(filteredExtras);
       } catch (error) {
         console.error('Error fetching extras:', error);
       } finally {
@@ -26,11 +43,11 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className='space-y-2 mb-2 max-h-[45vh] overflow-y-scroll'>
-      {extras.map((category, index) => (
-        <div key={index}>
-          <h3 className='font-semibold'>{ category.category }</h3>
-          {["Rice", "Noodle Type", "Broth"].includes(category.category) ? (
+    <div className='space-y-2 mb-2 p-8 pt-0 max-h-[65dvh] overflow-y-scroll'>
+      <div>
+        {dropdownExtras.map((category, index) => (
+          <div key={index}>
+            <h3 className='font-semibold'>{ category.category }</h3>
             <DropDownOptions 
               categoryName={category.category}
               selectedExtras={selectedExtras[category.category]?.chosen_options || []}
@@ -38,16 +55,22 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
               setSelectedExtras={setSelectedExtras}
               setSelectedExtrasPrice={setSelectedExtrasPrice}
             />
-          ) : (
-            <RegularOptions 
-              categoryName={category.category}
-              selectedExtras={selectedExtras[category.category]?.chosen_options || []}
-              options={category.options}
-              optionIndex={index} 
-              setSelectedExtras={setSelectedExtras}
-              setSelectedExtrasPrice={setSelectedExtrasPrice}
-            />
-          )}
+          </div>
+        ))}
+
+      </div>
+      
+      {extras.map((category, index) => (
+        <div key={index}>
+          <h3 className='font-semibold'>{ category.category }</h3>
+          <RegularOptions 
+            categoryName={category.category}
+            selectedExtras={selectedExtras[category.category]?.chosen_options || []}
+            options={category.options}
+            optionIndex={index} 
+            setSelectedExtras={setSelectedExtras}
+            setSelectedExtrasPrice={setSelectedExtrasPrice}
+          />
         </div>
       ))}
     </div>
@@ -164,27 +187,42 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
 
   return (
     <>
-      {options.map((option, index) => (
-        <div key={index} className='space-y-2'>
-          <div className='space-x-2'>
-            <input
-              type="checkbox"
-              id={`option-${optionIndex}-${index}`}
-              name={option.name}
-              value={option.price}
-              onChange={handleCheckboxChange}
-              checked={checkedOptions[option.name]}
-            />
-            <label htmlFor={`option-${optionIndex}-${index}`}>
-              {option.name} {!option.get_quantity && `($${parseFloat(option.price).toFixed(2)})` }
-            </label>
-          </div>
+      {options.map((option, index) => {
+        const checked = checkedOptions[option.name];
+        return (
+          <div key={index} className={`mb-2 p-2 ${checked ? "bg-[#EBEFE8]" : "bg-none"}`}>
+            <div 
+              className='flex flex-row items-center space-x-4 cursor-pointer'
+              onClick={() =>
+                handleCheckboxChange({
+                  target: {
+                    name: option.name,
+                    checked: !checkedOptions[option.name],
+                    value: option.price.toString(),
+                  },
+                })
+              }
+            >
+              
+              <AddButton 
+                checked={checked}
+                handleCheckboxChange={handleCheckboxChange}
+                option={option}
+              />
 
-          {option.get_quantity && checkedOptions[option.name] && (
-            <QuantityCounter quantity={quantities[option.name]} setQuantity={(newQuantity) => handleQuantityChange(option, newQuantity)} />
-          )}
-        </div>
-      ))}
+              <div>
+                <strong>{option.name}</strong>
+                <p className="text-[#7D7D7D]">
+                  {!option.get_quantity && `$${parseFloat(option.price).toFixed(2)}`}
+                </p>
+              </div>
+            </div>
+
+            {option.get_quantity && checkedOptions[option.name] && (
+              <QuantityCounter quantity={quantities[option.name]} setQuantity={(newQuantity) => handleQuantityChange(option, newQuantity)} />
+            )}
+          </div>
+      )})}
     </>
   )
 }

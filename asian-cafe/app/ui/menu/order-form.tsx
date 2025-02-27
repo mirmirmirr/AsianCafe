@@ -76,8 +76,8 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
   };  
 
   return (
-    <div className="bg-white p-8 rounded-[20px] shadow-lg relative w-[75vw] md:w-[40vw]">
-      <div className='flex flex-row justify-between mb-2'>
+    <div className='bg-white relative bottom-0 rounded-t-[20px] shadow-lg sticky bottom-0 w-screen h-1/2'>
+      <div className='pb-0 p-8 flex flex-row justify-between mb-2'>
         <h3 className="text-xl font-semibold">{selectedItem.name}</h3>
         <button
           onClick={handleFormClose}
@@ -87,7 +87,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
         </button>
       </div>
       <ExtraOptions itemCode={selectedItem.id} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
-      <div className="mb-2">
+      <div className="mb-2 p-8 pb-0 pt-0">
         <label className="block font-medium">
           Special Requests:
         </label>
@@ -100,17 +100,17 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
           className="w-full p-2 border rounded"
         ></textarea>
       </div>
-      <div className="flex md:flex-row flex-col justify-between gap-4">
+      <div className="flex md:flex-row flex-col justify-between gap-4 p-8 pt-0">
         <QuantityCounter quantity={quantity} setQuantity={setQuantity} />
 
         <button
           type="button"
-          className="px-4 py-2 bg-lightgreen text-black rounded hover:bg-darkgreen"
+          className="px-6 py-5 bg-[#D0E4BA] text-[#4A6D06] font-bold rounded-full w-[70%] hover:bg-darkgreen"
           onClick={handleAddToOrder}
         >
           {isEditing ? "Update Item" : "Add to Order"}  ${totalPrice.toFixed(2)}
         </button>
-      </div>
+      </div>      
     </div>
   );
 }

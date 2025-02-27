@@ -126,7 +126,7 @@ function MenuItems({ items }) {
       ))}
 
       {selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto">
           <div 
             className={`
               absolute inset-0 bg-black bg-opacity-50 
