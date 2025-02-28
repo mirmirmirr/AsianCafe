@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import api from '@/app/lib/axios';
+import { useOrder } from '@/app/ui/menu/OrderContext';
 import { OrderSummaryList } from '../order-summary';
 import Confirmation from './order-confirmation';
 import OrderDetailsForm from './order-details-form';
@@ -17,6 +19,7 @@ export default function OrderConfirm({ onClose }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderQuantity, setOrderQuantity] = useState(0);
   const [errors, setErrors] = useState({ time: '', name: '', phone: '' });
+  const { orderUpdated, updateOrder } = useOrder();
 
   const updateOrderDetails = (key, value) => {
     setOrderDetails(prevDetails => ({ ...prevDetails, [key]: value }));
@@ -49,15 +52,20 @@ export default function OrderConfirm({ onClose }) {
     }
   }, [orderDetails.pickupOption]);
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (orderDetails.name && orderDetails.phone && orderDetails.pickupTime) {
-      console.log('Order placed:', orderDetails);
       const { pickupTime, pickupOption } = orderDetails;
-      
       const formattedTime = formatPickupTime(pickupOption, pickupTime);
-
       updateOrderDetails('pickupTime', formattedTime);
       setOrderPlaced(true);
+
+      try {
+        const response = await api.patch('/api/checkout');
+        console.log(response.data);
+        updateOrder();
+      } catch (error) {
+        console.error("Failed to fetch order:", error);
+      }
     } else {
       setErrors({
         time: orderDetails.pickupTime ? '' : 'Please choose a pickup time',

@@ -129,15 +129,15 @@ def order_item(request, order_item_id):
   elif request.method == 'PATCH':
     return utils.edit_order_item(request, order_item_id)
 
-@api_view(['POST'])
+@api_view(['PATCH'])
 def checkout(request):
     session = request.session
     order_id = session.pop("order_id", None)
 
     if order_id:
-        order = Order.objects.get(id=order_id)
-        order.is_active = False
-        order.save()
+      order = Order.objects.get(id=order_id)
+      order.is_active = False
+      order.save()
 
     return JsonResponse({"message": "Checkout successful!"}, status=status.HTTP_200_OK)
 
