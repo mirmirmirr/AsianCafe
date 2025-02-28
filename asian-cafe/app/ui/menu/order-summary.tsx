@@ -48,7 +48,6 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
     const fetchOrder = async () => {
       try {
         const response = await api.get('/api/get_order');
-        console.log(response.data["order"]);
         setOrderData(response.data["order"]);
 
         const totalPrice = response.data["order"].reduce((sum, item) => sum + parseFloat(item.total_price || 0), 0);
@@ -145,6 +144,8 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
 
 function ExtrasDetail({ jsonString, specialRequests }) {
   const data = JSON.parse(jsonString);
+  console.log("DATA", data);
+  // console.log("RICE", data["Rice"].chosen_options);
 
   return (
     <div className='text-[14px] text-[#4A6D06]'>

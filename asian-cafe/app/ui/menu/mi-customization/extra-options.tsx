@@ -253,20 +253,24 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
   useEffect(() => {
     console.log("running selected dropdown for ", categoryName);
     if (selectedExtras.length > 0) {
-      const selectedOption = options.find((option) => option.name === selectedExtras[0]);
+      const selectedOption = options.find(
+        (option) => option.name === selectedExtras[0]?.name
+      );
       setSelectedOption(selectedOption);
     }
   }, [selectedExtras, categoryName, options]);
 
   useEffect(() => {
-    // sets the default selected option
     setSelectedExtras((prev) => {
       const updatedExtras = {...prev};
       const category = updatedExtras[categoryName];
 
-      if (!category) {
-        updatedExtras[categoryName] = { category: categoryName, chosen_options: [options[0].name] };
-      } 
+      if (!category || !category.chosen_options || category.chosen_options.length === 0) {
+        updatedExtras[categoryName] = { 
+          category: categoryName, 
+          chosen_options: [{ name: options[0].name }] 
+        };
+      }
       
       console.log(updatedExtras);
       return updatedExtras;
@@ -279,7 +283,7 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
     (option) => {
       setSelectedExtras((prev) => ({
         ...prev,
-        [categoryName]: { category: categoryName, chosen_options: [option.name] }
+        [categoryName]: { category: categoryName, chosen_options: [{name: option.name}] }
       }));
 
       setSelectedExtrasPrice((prev) => prev - selectedOption.price + option.price);
