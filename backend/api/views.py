@@ -70,11 +70,7 @@ def get_extras(request, itemID):
 def add_order_item(request):
   if request.method == 'POST':
     try:
-      print(request.COOKIES)
-      print(request.headers)
-
       print(f"Session Key: {request.session.session_key}")
-      print(f"Session Data: {request.session.items()}") 
 
       user = request.user if request.user.is_authenticated else None
 
@@ -83,25 +79,18 @@ def add_order_item(request):
 
       # checking if there is an active session order
       if order_id:
-        print(order_id)
         order = Order.objects.filter(id=order_id, is_active=True).first()
         if not order:
-          print("2")
           order = Order.objects.create(user=user)
           session["order_id"] = order.id
           session.save()
       else:
-        print("3 new session..")
         order = Order.objects.create(user=user)
         session["order_id"] = order.id
         session.save()
-        print(f"Session Key: {request.session.session_key}")
-        print(f"Session Data: {request.session.items()}") 
-
       
       # add the new order item
       data = request.data
-      print(data)
       order_item = OrderItem.objects.create(
         order=order,
         menu_item_id=data['menu_item_id'],
@@ -110,10 +99,6 @@ def add_order_item(request):
         quantity=data['quantity'],
         special_requests=data.get('special_requests', None)
       )
-
-      print(f"Session Key: {request.session.session_key}")
-      print(f"Session Data: {request.session.items()}") 
-
       return JsonResponse({"message": "Order item added successfully!", "order_id": order.id}, status=status.HTTP_201_CREATED)
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -145,18 +130,9 @@ def checkout(request):
 def get_order(request):
   try:
     print(f"Session Key: {request.session.session_key}")
-    print(f"Session Data: {request.session.items()}") 
     
-    print("trying")
     session = request.session
     order_id = session.get('order_id')
-    
-    print("trying 2 ", order_id)
-    # order = Order.objects.get(id=order_id)
-    # serializer = OrderSerializer(order)
-
-    # if order_id: 
-    #   print("order_id: ", order_id)
 
     with connection.cursor() as cursor:
       cursor.execute ("""
@@ -189,12 +165,9 @@ def get_order(request):
         """, [order_id])
       rows = cursor.fetchall()
       column_names = [desc[0] for desc in cursor.description]
+
     items = [dict(zip(column_names, row)) for row in rows]
-    print("got rows")
     return JsonResponse({"order" : items})
-    # else:
-    #   print("no order")
-    #   return JsonResponse({"no order yet"})
     
   except Exception as e:
     print("Error:", str(e))
