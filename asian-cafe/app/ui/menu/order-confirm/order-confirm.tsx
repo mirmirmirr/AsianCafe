@@ -11,7 +11,7 @@ export default function OrderConfirm({ onClose }) {
   const [orderDetails, setOrderDetails] = useState({
     name: "",
     phone: "",
-    pickupTime: "",
+    pickupTime: "ASAP",
     pickupOption: "ASAP",
   });
   const [totalPrice, setTotalPrice] = useState(0);
@@ -94,11 +94,9 @@ export default function OrderConfirm({ onClose }) {
   };
 
   if (orderPlaced) {
-    const { pickupTime, name, phone } = orderDetails;
-    setOrderPlaced(false);
-    
+    const { pickupTime, name, phone } = orderDetails;    
     return (
-      <OrderSheetWrapper onClose={onClose}>
+      <OrderSheetWrapper onClose={() => { onClose(); setOrderPlaced(false); }}>
         <Confirmation
           pickupTime={pickupTime}
           name={name}
