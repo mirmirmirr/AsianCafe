@@ -7,8 +7,26 @@ import { useOrder } from './OrderContext';
 import OrderForm from './mi-customization/order-form';
 
 export default function OrderSummary({ setTotalPrice, setOrderQuantity }) {
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    if (isHovering) {
+      document.body.style.overflow = "none";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isHovering]);
+
   return (
-    <div className='max-h-[65vh] overflow-y-scroll'>
+    <div
+      className="max-h-[65vh] overflow-y-auto pb-8"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       <OrderSummaryList setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
     </div>
   )
@@ -98,6 +116,7 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
       ) : (
         <p>Loading...</p>
       )}
+      
       {editMode && editingItem && ReactDOM.createPortal (
         <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto">
           <div 
@@ -128,7 +147,7 @@ function ExtrasDetail({ jsonString, specialRequests }) {
   const data = JSON.parse(jsonString);
 
   return (
-    <div className='text-[14px] text-gray-600'>
+    <div className='text-[14px] text-[#4A6D06]'>
       {Object.keys(data).map((key, index) => (
         <div key={index}>
           <ul>

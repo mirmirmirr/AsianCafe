@@ -38,12 +38,12 @@ export default function Order({ setOrderQuantity }) {
       <p className='mb-2'>*Click on item to edit</p>
       <h1 className='text-[30px] font-[600] font-euphoria'>My Order</h1>
       <OrderSummary setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
-      <div className='flex justify-center mt-4'>
+      <div className="sticky bottom-8">
         <button 
           onClick={() => setIsConfirmingOrder(true)} 
-          className='bg-darkgreen rounded-[20px] w-[330px] p-2 font-bold'
+          className="z-50 bg-darkgreen text-white w-[330px] p-2 rounded-[20px] shadow-lg"
         >
-          Checkout ${totalPrice.toFixed(2)}
+          Checkout ${(totalPrice * 1.08).toFixed(2)}
         </button>
       </div>
 
@@ -70,7 +70,7 @@ export default function Order({ setOrderQuantity }) {
             </div>
           </div>,
           document.body
-        )}
+    )}
     </>
   );
 }
