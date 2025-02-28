@@ -107,8 +107,6 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
   )
 
   useEffect(() => {
-    console.log("running selected regular for ", categoryName);
-    console.log(selectedExtras);
     if (selectedExtras.length > 0) {
       selectedExtras.forEach((extra) => {
       setCheckedOptions((prev) => ({
@@ -125,7 +123,6 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
   }, [selectedExtras, categoryName]);
 
   const handleCheckboxChange = (e) => {
-    // console.log("checkbox change for ", e.target.name);
     const isChecked = e.target.checked;
     const addonName = e.target.name;
     const price = parseFloat(e.target.value);
@@ -135,21 +132,17 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
       ...prev,
       [e.target.name]: isChecked,
     }));
-    // console.log("here");
+
     setSelectedExtras((prev) => {
-      // console.log("setting extras");
       const updatedExtras = { ...prev };
       const category = updatedExtras[categoryName];
-      // console.log(category);
 
       if (isChecked) {
         if (!category) {
-          // console.log("adding new category");
           updatedExtras[categoryName] = { category: categoryName, chosen_options: [{name: addonName, quantity: quantities[addonName]}] };
         } else {
           const optionExists = category.chosen_options.some(option => option.name === addonName);
           if (!optionExists) {
-            // console.log("adding new option");
             category.chosen_options.push({name: addonName, quantity: quantities[addonName]});
           }
         }
@@ -162,7 +155,6 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
         }
       }
 
-      console.log(updatedExtras);
       return updatedExtras;
     });
 
@@ -173,7 +165,6 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
   };
 
   const handleQuantityChange = (option, newQuantity) => {
-    console.log(newQuantity);
     const currentQuantity = quantities[option.name];
     const priceDifference = (newQuantity - currentQuantity) * parseFloat(option.price);
 
@@ -251,7 +242,6 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
   };
 
   useEffect(() => {
-    console.log("running selected dropdown for ", categoryName);
     if (selectedExtras.length > 0) {
       const selectedOption = options.find(
         (option) => option.name === selectedExtras[0]?.name
@@ -272,7 +262,6 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
         };
       }
       
-      console.log(updatedExtras);
       return updatedExtras;
     });
 
@@ -292,8 +281,6 @@ function DropDownOptions({ categoryName, selectedExtras, options, setSelectedExt
     },
     [categoryName, selectedOption, setSelectedExtras, setSelectedExtrasPrice]
   );
-
-  console.log("OPTIONS", options);
 
   return (
     <RadioCards 

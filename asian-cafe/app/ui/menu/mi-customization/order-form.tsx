@@ -26,7 +26,6 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
   useEffect(() => {
     if (!selectedItem) return;
     
-    console.log("isEditing", isEditing);
     if (isEditing) {
       setQuantity(selectedItem.quantity);
       setSelectedExtras(JSON.parse(selectedItem.extras || "[]"));

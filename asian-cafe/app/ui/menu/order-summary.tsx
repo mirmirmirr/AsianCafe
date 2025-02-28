@@ -144,9 +144,6 @@ export function OrderSummaryList({ setTotalPrice, setOrderQuantity }) {
 
 function ExtrasDetail({ jsonString, specialRequests }) {
   const data = JSON.parse(jsonString);
-  console.log("DATA", data);
-  // console.log("RICE", data["Rice"].chosen_options);
-
   return (
     <div className='text-[14px] text-[#4A6D06]'>
       {Object.keys(data).map((key, index) => (
