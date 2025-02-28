@@ -58,6 +58,12 @@ export default function OrderConfirm({ onClose }) {
 
       updateOrderDetails('pickupTime', formattedTime);
       setOrderPlaced(true);
+    } else {
+      setErrors({
+        time: orderDetails.pickupTime ? '' : 'Please choose a pickup time',
+        name: orderDetails.name ? '' : 'Please enter a name for the order',
+        phone: orderDetails.phone ? '' : 'Please enter a phone number for the order',
+      });
     }
   };
 
