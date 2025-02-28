@@ -44,7 +44,7 @@ export default function OrderDetailsForm({ orderDetails, updateOrderDetails, set
           onChange={handleOptionChange}
         />
         {selectedOption === "ASAP" && 
-          <div className="m-2 text-[15px] italic h-12 flex flex-col justify-center">
+          <div className="m-2 text-[15px] italic h-12">
             Your order will be ready for pickup in around <strong>20 minutes</strong>
           </div>
         }

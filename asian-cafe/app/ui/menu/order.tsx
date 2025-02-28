@@ -61,7 +61,7 @@ export default function Order({ setOrderQuantity }) {
 
             <div
               className={`
-                absolute right-0 top-0 h-full w-[330px] bg-white 
+                absolute right-0 top-0 h-full w-[390px] bg-white 
                 transition-transform ease-in-out duration-300
                 ${animateIn ? 'translate-x-0' : 'translate-x-full'}
               `}

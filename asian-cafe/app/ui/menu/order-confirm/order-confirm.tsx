@@ -106,39 +106,43 @@ export default function OrderConfirm({ onClose }) {
 
   return (
     <OrderSheetWrapper onClose={onClose}>
-        <h2 className="md:block hidden text-xl font-bold mb-4">My Order</h2>
-        <OrderDetailsForm orderDetails={orderDetails} updateOrderDetails={updateOrderDetails} errors={errors} setErrors={setErrors} />
-        <OrderSummaryList setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
+      <OrderDetailsForm orderDetails={orderDetails} updateOrderDetails={updateOrderDetails} errors={errors} setErrors={setErrors} />
 
-        <div className='justify-center fixed bottom-8 z-50'>
-          <OrderPriceSummary totalPrice={totalPrice} />
-          <button
-            className="bg-darkgreen text-white w-[330px] p-2 rounded-[20px]"
-            onClick={handlePlaceOrder}
-          >
-            Place Order ${(totalPrice * 1.08).toFixed(2)}
-          </button>
-        </div>
+      <div className="flex flex-col flex-1 justify-between min-h-fit gap-4">
+        <OrderSummaryList setTotalPrice={setTotalPrice} setOrderQuantity={setOrderQuantity} />
+        <OrderPriceSummary totalPrice={totalPrice} />
+      </div>
+
+      <div className="fixed bottom-8 left-0 right-0 px-8">
+        <button
+          className="z-50 bg-darkgreen text-white w-full p-2 rounded-[20px] shadow-[0_10px_60px_0px_rgba(0,0,0,0.3)]"
+          onClick={handlePlaceOrder}
+        >
+          Place Order ${(totalPrice * 1.08).toFixed(2)}
+        </button>
+      </div>
     </OrderSheetWrapper>
   );
 }
 
 function OrderSheetWrapper({ children, onClose }) {
   return (
-    <div className='fixed top-0 right-0 h-full w-full md:w-[390px] bg-white'>
-      <div className="relative w-full max-w-lg h-full overflow-y-auto bg-white p-8">
-        <div className='md:hidden block flex gap-5 items-center'>
-          <button className="mb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
-            <img src="/icons/cross.svg" alt="close" width={25} height={25} />
-          </button>
-          <h2 className="md:hidden block text-xl font-bold mb-4">My Order</h2>
-        </div>
+    <div className='fixed flex flex-col top-0 right-0 h-full w-full max-w-screen md:w-[390px] bg-white relative p-8 pt-0 overflow-y-auto'>
+      <div className='md:hidden block flex gap-5 items-center bg-white sticky top-0 pt-8'>
+        <button className="mb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
+          <img src="/icons/cross.svg" alt="close" width={25} height={25} />
+        </button>
+        <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+      </div>
 
-        <button className="md:block hidden mb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
+      <div className='hidden md:block items-center bg-white sticky top-0 pt-8'>
+        <button className="pb-4" onClick={() => { onClose(); document.body.style.overflow = 'auto'; }}>
           <img src="/icons/cross.svg" alt="close" width={30} height={30} />
         </button>
-        {children}
+        <h2 className="text-xl font-bold mb-4 sticky top-[30px]">Order Summary</h2>
       </div>
+
+      {children}
     </div>
   );
 }
