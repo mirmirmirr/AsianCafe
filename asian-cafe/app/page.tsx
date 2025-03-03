@@ -43,7 +43,7 @@ export default function Home() {
           <EmblaCarousel />
         </div>
 
-        <div className="flex flex-col md:grid md:grid-cols-[1fr_2fr_1fr] justify-items-center gap-4 text-center text-[18px] mt-10 mb-8">
+        <div id="store-info" className="flex flex-col md:grid md:grid-cols-[1fr_2fr_1fr] justify-items-center gap-4 text-center text-[18px] mt-10 mb-8">
             <div className="col-start-1">
             <h1 className="font-[600] mb-2">LOCATION</h1>
             <Link className="hover:underline" href="https://www.google.com/maps/search/?api=1&query=511+E+Genesee+St,+Fayetteville,+NY+13066" target="_blank" rel="noopener noreferrer">

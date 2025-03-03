@@ -1,11 +1,8 @@
 import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
 
 const links = [
   { name: 'Home', href: '/' },
   { name: 'Menu', href: '/menu' },
-  // { name: 'My Account', href: '/account' },
-  // { name: 'Coupons', href: '/coupons' },
 ]
 
 export default function NavLinks() {
@@ -15,7 +12,7 @@ export default function NavLinks() {
         <Link
           key={link.name}
           href={link.href}
-          className='hover:font-[600]'
+          className='hover:font-[600] text-lg'
         >
           <p>{link.name}</p>
         </Link>

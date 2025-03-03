@@ -19,6 +19,9 @@ export const getStatus = () => {
   if (day <= 6) { // Tuesday - Saturday
     if (hours < 16) return "CLOSED, open for dinner 4pm"; // Closed before
     if (hours >= 16 && hours < 20) return "OPEN NOW - Dinner, 4pm-8pm"; // Dinner hours
+    if (hours >= 20 && day < 5) return "CLOSED, open tomorrow 11am";
+    if (hours >= 20 && day === 5) return "CLOSED, open Saturday 4pm";
+    if (hours >= 20 && day === 6) return "CLOSED, open Tuesday 11am";
   }
 
   return "CLOSED"; // Default case

@@ -2,7 +2,7 @@ import { geistSans, euphoria } from '@/app/ui/styles/fonts';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@/app/ui/styles/globals.css';
 import Header from '@/app/ui/layout/header';
-import StatusBanner from '@/app/ui/components/status-banner';
+import StatusBanner from '@/app/ui/layout/status-banner';
 import { OrderProvider } from '@/app/ui/menu/OrderContext';
 import Head from 'next/head';
 
