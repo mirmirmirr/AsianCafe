@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function AddButton({ checked, handleCheckboxChange, option }) {
+export default function AddButton({ checked }) {
   const [symbol, setSymbol] = useState({ src: "/icons/add.svg", alt: "Add Icon"});
   const [color, setColor] = useState("darkgreen")
 
@@ -15,19 +15,8 @@ export default function AddButton({ checked, handleCheckboxChange, option }) {
     }
   }, [checked])
 
-  const handleSelect = () => {
-    const syntheticEvent = {
-      target: {
-        name: option.name,
-        checked: !checked,
-        value: option.price.toString(),
-      },
-    };
-    handleCheckboxChange(syntheticEvent);
-  }
-
   return (
-    <button className={`bg-${color} rounded-full p-2`} onClick={() => handleSelect()}>
+    <button className={`bg-${color} rounded-full p-2`}>
       <Image className="invert" src={symbol.src} alt={symbol.alt} width={20} height={20} />
     </button>
   )

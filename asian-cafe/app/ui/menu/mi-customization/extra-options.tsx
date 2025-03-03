@@ -211,8 +211,6 @@ function RegularOptions({ categoryName, selectedExtras, options, optionIndex, se
               
               <AddButton 
                 checked={checked}
-                handleCheckboxChange={handleCheckboxChange}
-                option={option}
               />
 
               <div className='md:flex md:flex-row space-between items-center gap-2'>
