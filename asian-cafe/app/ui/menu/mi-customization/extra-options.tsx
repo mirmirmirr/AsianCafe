@@ -6,7 +6,7 @@ import QuantityCounter from '../../components/counter';
 import RadioCards from '../../components/radio-cards';
 import AddButton from '../../components/add-button';
 
-export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
+export default function ExtraOptions({ itemCode, num_addons, selectedExtras, setSelectedExtras, setSelectedExtrasPrice }) {
   const [extras, setExtras] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [dropdownExtras, setDropdownExtras] = useState([]);
@@ -39,10 +39,10 @@ export default function ExtraOptions({ itemCode, selectedExtras, setSelectedExtr
     fetchExtras();
   }, [itemCode]);
 
-  if (isLoading && itemCode > 12 && itemCode < 65) {
+  if (isLoading) {
     return (
       <div className='space-y-2 mb-2 p-8 pt-0 max-h-[60dvh] overflow-y-scroll'>
-        {[...Array(8)].map((_, index) => (
+        {[...Array(num_addons)].map((_, index) => (
           <div key={index} className="mb-2 p-2 bg-gray-200 animate-pulse rounded-md">
             <div className="flex flex-row items-center space-x-4">
               <div className="w-6 h-6 bg-gray-300 rounded-full"></div>

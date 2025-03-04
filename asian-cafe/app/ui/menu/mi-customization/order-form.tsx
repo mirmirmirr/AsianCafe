@@ -19,6 +19,8 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
   const [specialRequests, setSpecialRequests] = useState("");
   const { updateOrder } = useOrder();
 
+  console.log("selectedItem", selectedItem);
+
   useEffect(() => {
     setTotalPrice(unitPrice * quantity);
   }, [unitPrice, quantity]);
@@ -92,7 +94,7 @@ export default function OrderForm({ selectedItem, setSelectedItem, isEditing = f
           <img src="/icons/cross.svg" alt="close" width={20} height={20} />
         </button>
       </div>
-      <ExtraOptions itemCode={selectedItem.id} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
+      <ExtraOptions itemCode={selectedItem.id} num_addons={selectedItem.num_addons} selectedExtras={selectedExtras} setSelectedExtrasPrice={setUnitPrice} setSelectedExtras={setSelectedExtras} />
       
       <div onClick={() => setAddingSpecialRequests(!addingSpecialRequests)} className="mb-2 m-8 mt-2 px-4 py-2 border border-lightgreen font-medium">
         {specialRequests 

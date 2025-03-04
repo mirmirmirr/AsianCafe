@@ -16,28 +16,30 @@ def get_menu(request):
   with connection.cursor() as cursor:
     cursor.execute(
       """
-        SELECT 
-          mi.menu_item_id AS id,
-          ms.menu_section_id AS section_id,
-          ms.section_title AS section_title, 
-          CASE 
-            WHEN ms.subsection_title IS NULL THEN ms.description 
-            ELSE NULL 
-          END AS section_description,
-          ms.subsection_title AS subsection_title,
-          CASE 
-            WHEN ms.subsection_title IS NOT NULL THEN ms.description 
-            ELSE NULL 
-          END AS subsection_description,
-          mic.menu_item_code AS item_code,
-          mi.menu_item_name, 
-          mi.price, 
-          mi.spicy, 
-          mi.description AS item_description
-        FROM menu_item mi
-          LEFT JOIN menu_item_code mic USING (menu_item_id)
-          LEFT JOIN menu_section ms USING (menu_section_id)
-        ORDER BY ms.menu_section_id, mi.menu_item_id;
+      SELECT 
+        mi.menu_item_id AS id,
+        ms.menu_section_id AS section_id,
+        ms.section_title AS section_title, 
+        CASE 
+          WHEN ms.subsection_title IS NULL THEN ms.description 
+          ELSE NULL 
+        END AS section_description,
+        ms.subsection_title AS subsection_title,
+        CASE 
+          WHEN ms.subsection_title IS NOT NULL THEN ms.description 
+          ELSE NULL 
+        END AS subsection_description,
+        mic.menu_item_code AS item_code,
+        mi.menu_item_name, 
+        mi.price, 
+        mi.spicy, 
+        mi.description AS item_description,
+        COALESCE(jsonb_array_length(mal.allowed_addons), 0) AS num_addons
+      FROM menu_item mi
+        LEFT JOIN menu_item_code mic USING (menu_item_id)
+        LEFT JOIN menu_section ms USING (menu_section_id)
+        LEFT JOIN menu_addon_list mal USING (menu_item_id)
+      ORDER BY ms.menu_section_id, mi.menu_item_id;
     """)
     rows = cursor.fetchall()
     column_names = [desc[0] for desc in cursor.description]

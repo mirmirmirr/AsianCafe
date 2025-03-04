@@ -34,7 +34,8 @@ def clean_menu(items):
         "code": item["item_code"],
         "price": item["price"],
         "spicy": item["spicy"],
-        "desc": item["item_description"]
+        "desc": item["item_description"],
+        "num_addons": item["num_addons"]
       })
     else:
       if "items" not in menu[section]:
@@ -46,7 +47,8 @@ def clean_menu(items):
         "code": item["item_code"],
         "price": item["price"],
         "spicy": item["spicy"],
-        "desc": item["item_description"]
+        "desc": item["item_description"],
+        "num_addons": item["num_addons"]
       })
       
   return menu
