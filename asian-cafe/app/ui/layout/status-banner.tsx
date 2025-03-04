@@ -56,13 +56,13 @@ const StatusBanner = () => {
       className={`fixed z-50 top-0 left-0 h-[70px] md:h-[40px] w-full p-2 ${status.includes("CLOSED") ? "bg-red" : "bg-darkgreen"}`}
     >
       <div className="md:grid md:grid-cols-[20vw_1fr_20vw]" style={{ width: `${width}px` }} >
-        <a
+        <Link
           href="/"
           onClick={handleNavigation}
           className='text-white font-[500] text-center md:col-start-1 hover:underline cursor-pointer'
         >
           Open Hours
-        </a>
+        </Link>
         <h1 className='text-white font-[500] text-center md:col-start-2'>{status}</h1>
         <Link href="tel:+13156377778">
           <p className='text-white font-[500] text-center md:col-start-3 hover:underline'>(315) 637-7778</p>

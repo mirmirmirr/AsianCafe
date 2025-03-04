@@ -21,7 +21,7 @@ export default function Header() {
   return (
     <div className='flex items-center justify-center'>
       <motion.div
-        className={`fixed top-[70px] md:top-[40px] w-[95vw] z-10 bg-[#DEEBD1] flex border-b-2 border-black p-8 pt-4`}
+        className={`fixed top-[70px] md:top-[40px] w-[95vw] z-10 bg-[#E3ECB7] flex border-b-2 border-black p-8 pt-4`}
         initial={false}
         animate={{
         flexDirection: isScrolled ? 'row' : 'column',
