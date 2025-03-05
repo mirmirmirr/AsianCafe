@@ -55,18 +55,28 @@ const StatusBanner = () => {
     <div 
       className={`fixed z-50 top-0 left-0 h-[70px] md:h-[40px] w-full p-2 ${status.includes("CLOSED") ? "bg-red" : "bg-darkgreen"}`}
     >
-      <div className="md:grid md:grid-cols-[20vw_1fr_20vw]" style={{ width: `${width}px` }} >
+      <div className="text-white font-[500] text-center md:grid md:grid-cols-[20vw_1fr_20vw]" style={{ width: `${width}px` }} >
         <Link
           href="/"
           onClick={handleNavigation}
-          className='text-white font-[500] text-center md:col-start-1 hover:underline cursor-pointer'
+          className='hidden md:block md:text-start md:ml-8 md:col-start-1 hover:underline'
         >
           Open Hours
         </Link>
-        <h1 className='text-white font-[500] text-center md:col-start-2'>{status}</h1>
-        <Link href="tel:+13156377778">
-          <p className='text-white font-[500] text-center md:col-start-3 hover:underline'>(315) 637-7778</p>
-        </Link>
+        <h1 className='md:col-start-2'>{status}</h1>
+        <div className='flex flex-row justify-center gap-2 md:col-start-3'>
+          <Link
+            href="/"
+            onClick={handleNavigation}
+            className='md:hidden md:col-start-1 hover:underline'
+          >
+            Open Hours
+          </Link>
+          <p className='md:hidden'>•</p>
+          <Link href="tel:+13156377778">
+            <p className='md:col-start-3 hover:underline md:text-end md:mr-8'>(315) 637-7778</p>
+          </Link>
+        </div>
       </div>
     </div>
   );
