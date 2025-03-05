@@ -1,8 +1,2 @@
-
+*.DS_Store
 notes.txt
-notes.txt
-.env
-backend/.env
-backend/api/__pycache__/
-backend/api/migrations/__pycache__/
-backend/backend/__pycache__/
